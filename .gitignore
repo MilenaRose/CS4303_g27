@@ -1,0 +1,5 @@
+#Ignore VScode stuff
+.vscode/
+
+#Ignore output
+out/
