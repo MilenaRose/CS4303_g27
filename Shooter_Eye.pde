@@ -15,7 +15,7 @@ class Shooter_Eye{
         this.parent_y = y;
         this.x = x;
         this.y = y;
-        //calcCoords(180);
+        calcCoords(180);
     }
     
     public void setParentX(float parent_x){
@@ -27,13 +27,12 @@ class Shooter_Eye{
     }
 
     private void calcCoords(int angle){
-        // Problem, angle needs to be in radians, rather than degrees.
-        x = (parent_radius * sin(angle)) + parent_x;
-        y = (parent_radius * cos(angle)) + parent_y;
+        x = (parent_radius * sin(radians(angle))) + parent_x;
+        y = (parent_radius * cos(radians(angle))) + parent_y;
     }
 
     void draw(){
-        calcCoords(180);
+        calcCoords(0);
         ellipse(x,y,radius,radius);
     }
 }
