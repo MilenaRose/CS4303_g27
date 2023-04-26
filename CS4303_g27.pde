@@ -3,10 +3,11 @@ boolean inShooterMode;
 import java.lang.Character;
 
 Shooter_Player player;
+final int SHOOTER_PLAYER_RADIUS = 50;
 
 void setup() {
     size(800,600);
-    player = new Shooter_Player(10,10,10,10);
+    player = new Shooter_Player(100,100,SHOOTER_PLAYER_RADIUS);
     shooter = new Shooter_Main();
     inShooterMode = true;
 }
@@ -34,7 +35,7 @@ void keyPressed() {
     }
     if (key == ' ') {
         if (inShooterMode) {
-            player.isShooting(true);
+            player.setShooting(true);
         }
     }
 }
@@ -62,7 +63,7 @@ void keyReleased() {
     }
     if (key == ' ') {
         if (inShooterMode) {
-            player.isShooting(false);
+            player.setShooting(false);
         }
     }
 }

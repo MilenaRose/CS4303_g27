@@ -1,24 +1,26 @@
 class Shooter_Player {
     private int x;
     private int y;
-    private int _width;
-    private int _height;
+    private int radius;
     private boolean movingUp;
     private boolean movingDown;
     private boolean movingLeft;
     private boolean movingRight;
     private boolean shooting;
+    private Shooter_Eye eye;
     private final int MOVE_INCREMENT = 4;  // Make this a percentage or something?
+    private Shooter_Bullet bullet;
     
-    Shooter_Player(int x, int y, int _width, int _height) {
+    Shooter_Player(int x, int y, int radius) {
         this.x = x;
         this.y = y;
-        this._width = _width;
-        this._height = _height;
+        this.radius = radius;
         movingUp = false;
         movingDown = false;
         movingLeft = false;
         movingRight = false; 
+        bullet = new Shooter_Bullet(10,10,10,10);
+        eye = new Shooter_Eye(x,y,10,radius);
     }
     
     public int getX() {
@@ -37,20 +39,12 @@ class Shooter_Player {
         this.y = y;
     }
     
-    public int getWidth() {
-        return _width;
+    public int getRadius() {
+        return radius;
     }
     
-    public void setWidth(int width) {
-        this._width = width;
-    }
-    
-    public int getHeight() {
-        return _height;
-    }
-    
-    public void setHeight(int height) {
-        this._height = height;
+    public void setRadius(int radius) {
+        this.radius = radius;
     }
     
     public boolean isMovingUp() {
@@ -84,47 +78,67 @@ class Shooter_Player {
     public void setMovingRight(boolean movingRight) {
         this.movingRight = movingRight;
     }
-
-    public boolean isShooting(){
+    
+    public boolean isShooting() {
         return shooting;
     }
-
-    public void setShooting(boolean shooting){
+    
+    public void setShooting(boolean shooting) {
         this.shooting = shooting;
     }
+
+
+    public void lookLeft() {
+
+    }
     
+    public void lookRight(){
+
+    }
+
+   // move left and right will be replaced by moving the "eye"
     public void moveLeft() {
-        if (!(x <= 0)) {
             x = x - MOVE_INCREMENT;
-        }
+            eye.setParentX(x);
+
     }
     
     public void moveRight() {
-        if (!(x + _width >= width)) {
             x = x + MOVE_INCREMENT;
-        }
+            eye.setParentX(x);
     }
     
     public void moveUp() {
         if (!(y <= 0)) {
             y = y - MOVE_INCREMENT;
+            eye.setParentY(y);
         }
     }
     
     public void moveDown() {
-        if (!(y + _height >= height)) {
+        if (!(y + radius >= height)) {
             y = y + MOVE_INCREMENT;
+              eye.setParentY(y);
         }
     }
 
-    public void shoot(){
-
+    private void drawPlayer(){
+        ellipseMode(RADIUS);
+        ellipse(x,y,radius, radius);
     }
     
     void draw() {
-        if (shooting){
-            shoot(); // how to move and shoot at the same time? I can only think of threads... :(
-        }
-        rect(x,y,_width,_height);
+        // Either shoot and then handle movement or just move (this way they can shoot and move "simultaneously")
+        if (shooting) {
+            bullet.fire();
+            bullet.draw();
+                    ellipseMode(RADIUS);
+        ellipse(x,y,radius, radius);
+        } else {
+            bullet.reset(x,y);
+                    ellipseMode(RADIUS);
+        ellipse(x,y,radius, radius);
+        }  
+        eye.draw();
     }
 }
