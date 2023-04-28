@@ -29,7 +29,7 @@ void keyPressed() {
     }
     if (key == 'a' || key == 'A') {
         if (inShooterMode) {
-            player.setMovingLeft(true);
+            player.setLookingCounterClock(true);
         }
     }
     if (key == 's' || key == 'S') {
@@ -39,7 +39,7 @@ void keyPressed() {
     }
     if (key == 'd' || key == 'D') {
         if (inShooterMode) {
-            player.setMovingRight(true);
+            player.setLookingClock(true);
         }
     }
     if (key == ' ') {
@@ -60,7 +60,7 @@ void keyReleased() {
     }
     if (key == 'a' || key == 'A') {
         if (inShooterMode) {
-            player.setMovingLeft(false);
+            player.setLookingCounterClock(false);
         }
     }
     if (key == 's' || key == 'S') {
@@ -70,7 +70,7 @@ void keyReleased() {
     }
     if (key == 'd' || key == 'D') {
         if (inShooterMode) {
-            player.setMovingRight(false);
+            player.setLookingClock(false);
         }
     }
     if (key == ' ') {

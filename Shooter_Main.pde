@@ -21,11 +21,11 @@ class Shooter_Main {
     * other objects.
     */
     void handleMovement() {
-        if (player.isMovingLeft()) {
-            player.moveLeft();
-        } else if (player.isMovingRight()) {
-            player.moveRight();
-        } else if (player.isMovingUp()) {
+        if (player.isLookingClock()) {
+            player.lookClockwise();
+        } else if (player.isLookingCounterClock()) {
+            player.lookCounterClockwise();
+        } if (player.isMovingUp()) {
             player.moveUp();
         } else if (player.isMovingDown()) {
             player.moveDown();

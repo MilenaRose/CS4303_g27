@@ -9,6 +9,7 @@ class Shooter_Eye{
     private int parent_radius;
     private float parent_x;
     private float parent_y;
+    private float current_angle;
     
     /**
     * Creates the eye and calcualtes its coordinates based on the player coordinates (parent).
@@ -20,7 +21,8 @@ class Shooter_Eye{
         this.parent_y = y;
         this.x = x;
         this.y = y;
-        calcCoords(180);
+        current_angle = 180; // The player starts looking up
+        calcCoords(current_angle);
     }
     
     /**
@@ -36,11 +38,19 @@ class Shooter_Eye{
     public void setParentY(float parent_y) {
         this.parent_y = parent_y;
     }
+
+    public float getCurrentAngle(){
+        return current_angle;
+    }
+
+    public void setCurrentAngle(float current_angle){
+        this.current_angle = current_angle;
+    }
     
     /**
     * Sets the eye coordinates given an angle and based on the parent center and radius.
     */
-    private void calcCoords(int angle) {
+    private void calcCoords(float angle) {
         x = (parent_radius * sin(radians(angle))) + parent_x;
         y = (parent_radius * cos(radians(angle))) + parent_y;
     }
@@ -49,7 +59,7 @@ class Shooter_Eye{
     * Updates the eye coordinates and draws it.
     */
     void draw() {
-        calcCoords(0);
+        calcCoords(current_angle);
         ellipse(x,y,radius,radius);
     }
 }

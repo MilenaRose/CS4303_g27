@@ -11,11 +11,14 @@ class Shooter_Player {
     private int radius;
     private boolean movingUp;
     private boolean movingDown;
-    private boolean movingLeft;
-    private boolean movingRight;
+
+    private boolean lookingClock; // The player is moving the eye clockwise
+    private boolean lookingCounterClock; // The player is moving the eye counter-clockwise
+
     private boolean shooting;
     private Shooter_Eye eye;
     private final int MOVE_INCREMENT = 4;  // Make this a percentage or something?
+    private final float LOOK_INCREMENT = 3; // this is in degrees
     private Shooter_Bullet bullet;
     
     /**
@@ -28,8 +31,8 @@ class Shooter_Player {
         this.radius = radius;
         movingUp = false;
         movingDown = false;
-        movingLeft = false;
-        movingRight = false; 
+        lookingCounterClock = false;
+        lookingClock = false; 
         bullet = new Shooter_Bullet(10,10,10,10);
         eye = new Shooter_Eye(x,y,10,radius);
     }
@@ -107,29 +110,29 @@ class Shooter_Player {
     /**
     * Returns whether the player is moving down.
     */
-    public boolean isMovingLeft() {
-        return movingLeft;
+    public boolean isLookingCounterClock() {
+        return lookingCounterClock;
     }
     
     /**
     * Sets whether the player is moving left.
     */
-    public void setMovingLeft(boolean movingLeft) {
-        this.movingLeft = movingLeft;
+    public void setLookingCounterClock(boolean lookingCounterClock) {
+        this.lookingCounterClock = lookingCounterClock;
     }
     
     /**
     * Returns whether the player is moving right.
     */
-    public boolean isMovingRight() {
-        return movingRight;
+    public boolean isLookingClock() {
+        return lookingClock;
     }
     
     /**
     * Sets whether the player is moving right.
     */
-    public void setMovingRight(boolean movingRight) {
-        this.movingRight = movingRight;
+    public void setLookingClock(boolean lookingClock) {
+        this.lookingClock = lookingClock;
     }
     
     /**
@@ -148,26 +151,16 @@ class Shooter_Player {
     
     
     // These are stubs for now but will replace move left and right with rotating the eye.
-    public void lookLeft() {
+    // Rotate eye clockwise
+    public void lookClockwise() {
+        eye.setCurrentAngle(eye.getCurrentAngle() - LOOK_INCREMENT);
+    }
+
+    // Rotate eye counter-clockwise
+    public void lookCounterClockwise() {
+        eye.setCurrentAngle(eye.getCurrentAngle() + LOOK_INCREMENT);
+    }
         
-    }
-    
-    public void lookRight() {
-        
-    }
-    
-    // move left and right will be replaced by moving the "eye"
-    public void moveLeft() {
-        x = x - MOVE_INCREMENT;
-        eye.setParentX(x);
-        
-    }
-    
-    public void moveRight() {
-        x = x + MOVE_INCREMENT;
-        eye.setParentX(x);
-    }
-    
     /**
     * Moves the player up according to a move increment, barring window collisions.
     */
