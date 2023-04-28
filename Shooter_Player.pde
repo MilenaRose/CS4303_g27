@@ -18,7 +18,7 @@ class Shooter_Player {
     private boolean shooting;
     private Shooter_Eye eye;
     private final int MOVE_INCREMENT = 4;  // Make this a percentage or something?
-    private final float LOOK_INCREMENT = 3; // this is in degrees
+    private final float LOOK_INCREMENT = 3; // this is in degrees (should scale acording to diameter of player).
     private Shooter_Bullet bullet;
     
     /**
@@ -149,14 +149,16 @@ class Shooter_Player {
         this.shooting = shooting;
     }
     
-    
-    // These are stubs for now but will replace move left and right with rotating the eye.
-    // Rotate eye clockwise
+    /**
+    * Rotate the eye clockwise
+    */
     public void lookClockwise() {
         eye.setCurrentAngle(eye.getCurrentAngle() - LOOK_INCREMENT);
     }
 
-    // Rotate eye counter-clockwise
+    /**
+    * Rotate the eye counter-clockwise
+    */
     public void lookCounterClockwise() {
         eye.setCurrentAngle(eye.getCurrentAngle() + LOOK_INCREMENT);
     }

@@ -39,10 +39,16 @@ class Shooter_Eye{
         this.parent_y = parent_y;
     }
 
+    /**
+    * Returns the current angle of the eye in degrees.
+    */
     public float getCurrentAngle(){
         return current_angle;
     }
 
+    /**
+    * Sets the angle of the eye in degrees.
+    */
     public void setCurrentAngle(float current_angle){
         this.current_angle = current_angle;
     }
