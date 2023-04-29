@@ -4,8 +4,8 @@
 */
 
 class Shooter_Bullet{
-    private int x;
-    private int y;
+    private float x;
+    private float y;
     private int _width;
     private int _height;
     private final int MOVE_INCREMENT = 4;
@@ -14,7 +14,7 @@ class Shooter_Bullet{
     /**
     * Creates the bullet and initialised firing to be false.
     */
-    Shooter_Bullet(int x, int y, int _width, int _height) {
+    Shooter_Bullet(float x, float y, int _width, int _height) {
         this.x = x;
         this.y = y;
         this._width = _width;
@@ -38,7 +38,7 @@ class Shooter_Bullet{
     /**
     * Reseats the position of the bullet.
     */
-    public void reset(int x, int y) {
+    public void reset(float x, float y) {
         this.x = x;
         this.y = y;
     }

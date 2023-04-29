@@ -25,10 +25,10 @@ class Shooter_Main {
             player.lookClockwise();
         } else if (player.isLookingCounterClock()) {
             player.lookCounterClockwise();
-        } if (player.isMovingUp()) {
-            player.moveUp();
-        } else if (player.isMovingDown()) {
-            player.moveDown();
+        } if (player.isMovingForward()) {
+            player.move(true);
+        } else if (player.isMovingBackward()) {
+            player.move(false);
         }
     }
     

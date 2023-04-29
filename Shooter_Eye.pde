@@ -5,7 +5,7 @@
 class Shooter_Eye{
     private float x;
     private float y;
-    private int radius;
+    private float radius;
     private int parent_radius;
     private float parent_x;
     private float parent_y;
@@ -14,17 +14,27 @@ class Shooter_Eye{
     /**
     * Creates the eye and calcualtes its coordinates based on the player coordinates (parent).
     */
-    Shooter_Eye(float x, float y, int radius, int parent_radius) {
-        this.radius = radius;
+    Shooter_Eye(float x, float y, int parent_radius) {
         this.parent_radius = parent_radius;
         this.parent_x = x;
         this.parent_y = y;
         this.x = x;
         this.y = y;
-        current_angle = 180; // The player starts looking up
+        // Scaling the eye according to the parent's radius should give a constant turning speed on all window sizes.
+        radius = parent_radius * (0.20); 
+        // The player is initialised looking up.
+        current_angle = 180; 
         calcCoords(current_angle);
     }
     
+    public float getX(){
+        return x;
+    }
+
+    public float getY(){
+        return y;
+    }
+
     /**
     * Method to update the parent x coordinate.
     */

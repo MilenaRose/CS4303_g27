@@ -6,62 +6,62 @@
 
 
 class Shooter_Player {
-    private int x;
-    private int y;
+    private float x;
+    private float y;
     private int radius;
-    private boolean movingUp;
-    private boolean movingDown;
-
+    private boolean movingForward;
+    private boolean movingBackward;
+    
     private boolean lookingClock; // The player is moving the eye clockwise
     private boolean lookingCounterClock; // The player is moving the eye counter-clockwise
-
+    
     private boolean shooting;
     private Shooter_Eye eye;
-    private final int MOVE_INCREMENT = 4;  // Make this a percentage or something?
-    private final float LOOK_INCREMENT = 3; // this is in degrees (should scale acording to diameter of player).
+    private final int MOVE_SPEED = 4;  // Make this a percentage or something?
+    private final float LOOK_SPEED = 3; // this is in degrees (should scale acording to diameter of player).
     private Shooter_Bullet bullet;
     
     /**
     * Creates a shooter player, the player is a circle so a radius is needed
     * Initialises the bullet and eye
     */
-    Shooter_Player(int x, int y, int radius) {
+    Shooter_Player(float x, float y, int radius) {
         this.x = x;
         this.y = y;
         this.radius = radius;
-        movingUp = false;
-        movingDown = false;
+        movingForward = false;
+        movingBackward = false;
         lookingCounterClock = false;
         lookingClock = false; 
         bullet = new Shooter_Bullet(10,10,10,10);
-        eye = new Shooter_Eye(x,y,10,radius);
+        eye = new Shooter_Eye(x,y,radius);
     }
     
     /**
     * Returns the x coordinate of the player.
     */
-    public int getX() {
+    public float getX() {
         return x;
     }
     
     /**
     * Sets the x coordinate of the player.
     */
-    public void setX(int x) {
+    public void setX(float x) {
         this.x = x;
     }
     
     /**
     * Returns the y coordinate of the player.
     */
-    public int getY() {
+    public float getY() {
         return y;
     }
     
     /**
     * Sets the y coordinate of the player.
     */
-    public void setY(int y) {
+    public void setY(float y) {
         this.y = y;
     }
     
@@ -82,29 +82,29 @@ class Shooter_Player {
     /**
     * Returns whether the player is moving up.
     */
-    public boolean isMovingUp() {
-        return movingUp;
+    public boolean isMovingForward() {
+        return movingForward;
     }
     
     /**
     * Sets whether the player is moving up.
     */
-    public void setMovingUp(boolean movingUp) {
-        this.movingUp = movingUp;
+    public void setMovingForward(boolean movingForward) {
+        this.movingForward = movingForward;
     }
     
     /**
     * Returns whether the player is moving down.
     */
-    public boolean isMovingDown() {
-        return movingDown;
+    public boolean isMovingBackward() {
+        return movingBackward;
     }
     
     /**
     * Sets whether the player is moving down.
     */
-    public void setMovingDown(boolean movingDown) {
-        this.movingDown = movingDown;
+    public void setMovingBackward(boolean movingBackward) {
+        this.movingBackward = movingBackward;
     }
     
     /**
@@ -153,36 +153,35 @@ class Shooter_Player {
     * Rotate the eye clockwise
     */
     public void lookClockwise() {
-        eye.setCurrentAngle(eye.getCurrentAngle() - LOOK_INCREMENT);
+        eye.setCurrentAngle(eye.getCurrentAngle() - LOOK_SPEED);
     }
-
+    
     /**
     * Rotate the eye counter-clockwise
     */
     public void lookCounterClockwise() {
-        eye.setCurrentAngle(eye.getCurrentAngle() + LOOK_INCREMENT);
+        eye.setCurrentAngle(eye.getCurrentAngle() + LOOK_SPEED);
+    }
+    
+    /**
+    * Moves the player towards or away from the eye according to the speed.
+    */
+    public void move(boolean forward) {
+        PVector result = new PVector(eye.getX() - x, eye.getY() - y);
+        result.normalize(); // Normalise to just get the direction
+        result.mult(MOVE_SPEED); // Add the speed.
+        
+        if (forward) {
+            x = x + result.x;
+            y = y + result.y;
+        } else {
+            x = x - result.x;
+            y = y - result.y;
+        }
+        eye.setParentX(x);
+        eye.setParentY(y);
     }
         
-    /**
-    * Moves the player up according to a move increment, barring window collisions.
-    */
-    public void moveUp() {
-        if (!(y <= 0)) {
-            y = y - MOVE_INCREMENT;
-            eye.setParentY(y);
-        }
-    }
-    
-    /**
-    * Moves the player up according to a down increment, barring window collisions.
-    */
-    public void moveDown() {
-        if (!(y + radius >= height)) {
-            y = y + MOVE_INCREMENT;
-            eye.setParentY(y);
-        }
-    }
-    
     /**
     * Updates bullets if firing, draws player and eye.
     */
