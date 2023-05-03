@@ -8,18 +8,23 @@ class Shooter_Bullet{
     private float y;
     private int _width;
     private int _height;
-    private final int MOVE_INCREMENT = 5;
+    // To make sure that player can never run into their own bullets:
+    // bullet_speed >= player_speed
+    private final int MOVE_INCREMENT = 8;
     private PVector direction;
+    private int entity_speed;
     
     /**
     * Creates the bullet.
     */
-    Shooter_Bullet(int _width, int _height, float x, float y, PVector direction) {
+    Shooter_Bullet(int _width, int _height, float x, float y, PVector direction, int entity_speed) {
         this._width = _width;
         this._height = _height;
         this.x = x;
         this.y = y;
         this.direction = direction;
+        // This is the speed that the entity that fired the bullet was moving at the time of firing
+        this.entity_speed = entity_speed; 
     }
     
     /**
@@ -29,7 +34,10 @@ class Shooter_Bullet{
         // Have to jump through some hoops to avoid exponential speed
         PVector result = new PVector();
         result = direction.copy();
-        result.mult(MOVE_INCREMENT);
+        // Player movement speed is added to bullet speed
+        // https://science.howstuffworks.com/question456.htm
+        // Can be a bit weird if player is moving backwards, decreasing the bullet speed
+        result.mult(MOVE_INCREMENT + entity_speed);
 
         x = x + result.x;
         y = y + result.y;

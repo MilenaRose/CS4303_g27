@@ -3,7 +3,7 @@ boolean inShooterMode;
 import java.lang.Character;
 
 Shooter_Player player;
-final int SHOOTER_PLAYER_RADIUS = 50;
+final int SHOOTER_PLAYER_RADIUS = 25;
 
 
 /**

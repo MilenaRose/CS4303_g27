@@ -17,7 +17,7 @@ class Shooter_Player {
     
     private boolean shooting;
     private Shooter_Eye eye;
-    private final int MOVE_SPEED = 4;  // Make this a percentage or something?
+    private final int MOVE_SPEED = 4;  // Make this a percentage or something? Need to make sure that bullet are faster than player!
     private final float LOOK_SPEED = 3; // this is in degrees (should scale acording to diameter of player).
     private final int BULLET_WIDTH = 5;
     private final int BULLET_HEIGHT = 5;
@@ -197,7 +197,13 @@ class Shooter_Player {
     public void fire() {
         if (shooting == true) {
             if (canShoot == true) {
-                bullets.add(new Shooter_Bullet(BULLET_WIDTH, BULLET_HEIGHT, eye.getX(),eye.getY(),getAimingDirection()));
+                if (movingForward) {
+                    bullets.add(new Shooter_Bullet(BULLET_WIDTH, BULLET_HEIGHT, eye.getX(),eye.getY(),getAimingDirection(), MOVE_SPEED));
+                } else if (movingBackward) {
+                    bullets.add(new Shooter_Bullet(BULLET_WIDTH, BULLET_HEIGHT, eye.getX(),eye.getY(),getAimingDirection(),(MOVE_SPEED * - 1)));
+                } else {
+                    bullets.add(new Shooter_Bullet(BULLET_WIDTH, BULLET_HEIGHT, eye.getX(),eye.getY(),getAimingDirection(), 0));
+                }
                 canShoot = false;
                 canShootCounter = 0;
             }
@@ -225,6 +231,8 @@ class Shooter_Player {
             for (int i = 0; i < bullets.size(); i++) {
                 Shooter_Bullet bullet = bullets.get(i);
                 bullet.update();
+                
+                
                 bullet.draw();
             }
         }
