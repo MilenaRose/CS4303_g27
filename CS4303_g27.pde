@@ -12,7 +12,7 @@ final int SHOOTER_PLAYER_RADIUS = 50;
 */
 void setup() {
     size(800,600);
-    player = new Shooter_Player(300,100,SHOOTER_PLAYER_RADIUS);
+    player = new Shooter_Player(width/2,height/2,SHOOTER_PLAYER_RADIUS);
     shooter = new Shooter_Main();
     inShooterMode = true;
 }

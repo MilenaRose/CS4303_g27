@@ -8,35 +8,35 @@ class Shooter_Bullet{
     private float y;
     private int _width;
     private int _height;
-    private final int MOVE_INCREMENT = 4;
-    private boolean firing;
+    private final int MOVE_INCREMENT = 5;
+    private PVector direction;
     
     /**
-    * Creates the bullet and initialised firing to be false.
+    * Creates the bullet.
     */
-    Shooter_Bullet(float x, float y, int _width, int _height) {
-        this.x = x;
-        this.y = y;
+    Shooter_Bullet(int _width, int _height, float x, float y, PVector direction) {
         this._width = _width;
         this._height = _height;
-        firing = false;
+        this.x = x;
+        this.y = y;
+        this.direction = direction;
     }
     
-    // want the bullet to move up until it hits the top or an enemy (when they're implemented)
     /**
-    * Updates the position of the bullet (should be called every frame).
-    * When the bullet collides with player, enemy or window it will disappear. (still ironing this out).
+    * Updates the location of the bullet based on the aiming direction.
     */
-    public void fire() {
-        if (!(y <= 0) && firing) {
-            y = y - MOVE_INCREMENT;
-        } else {
-            reset(player.getX(), player.getY());
-        }
+    public void update(){
+        // Have to jump through some hoops to avoid exponential speed
+        PVector result = new PVector();
+        result = direction.copy();
+        result.mult(MOVE_INCREMENT);
+
+        x = x + result.x;
+        y = y + result.y;
     }
     
     /**
-    * Reseats the position of the bullet.
+    * Reseats the position of the bullet.w
     */
     public void reset(float x, float y) {
         this.x = x;
@@ -47,6 +47,6 @@ class Shooter_Bullet{
     * Draws the bullet.
     */
     void draw() {
-        rect(x, y, _width, _height);
+        ellipse(x, y, _width, _height);
     }
 }

@@ -19,7 +19,12 @@ class Shooter_Player {
     private Shooter_Eye eye;
     private final int MOVE_SPEED = 4;  // Make this a percentage or something?
     private final float LOOK_SPEED = 3; // this is in degrees (should scale acording to diameter of player).
-    private Shooter_Bullet bullet;
+    private final int BULLET_WIDTH = 5;
+    private final int BULLET_HEIGHT = 5;
+    private ArrayList<Shooter_Bullet> bullets;
+    private boolean canShoot = true;
+    private int canShootCounter;
+    private final int SHOOT_WAIT = 10;
     
     /**
     * Creates a shooter player, the player is a circle so a radius is needed
@@ -33,8 +38,8 @@ class Shooter_Player {
         movingBackward = false;
         lookingCounterClock = false;
         lookingClock = false; 
-        bullet = new Shooter_Bullet(10,10,10,10);
         eye = new Shooter_Eye(x,y,radius);
+        bullets = new ArrayList<Shooter_Bullet>();
     }
     
     /**
@@ -166,10 +171,14 @@ class Shooter_Player {
     /**
     * Moves the player towards or away from the eye according to the speed.
     */
-    public void move(boolean forward) {
+    
+    public PVector getAimingDirection() {
         PVector result = new PVector(eye.getX() - x, eye.getY() - y);
-        result.normalize(); // Normalise to just get the direction
-        result.mult(MOVE_SPEED); // Add the speed.
+        return result.normalize(); // Normalise to just get the direction
+    }
+    
+    public void move(boolean forward) {
+        PVector result = getAimingDirection().mult(MOVE_SPEED);
         
         if (forward) {
             x = x + result.x;
@@ -181,22 +190,45 @@ class Shooter_Player {
         eye.setParentX(x);
         eye.setParentY(y);
     }
-        
+    
     /**
-    * Updates bullets if firing, draws player and eye.
+    * Regulates shooting speed and adds bullets to the game
+    */
+    public void fire() {
+        if (shooting == true) {
+            if (canShoot == true) {
+                bullets.add(new Shooter_Bullet(BULLET_WIDTH, BULLET_HEIGHT, eye.getX(),eye.getY(),getAimingDirection()));
+                canShoot = false;
+                canShootCounter = 0;
+            }
+        }
+        if (canShoot == false) {
+            canShootCounter++;
+            if (canShootCounter == SHOOT_WAIT) {
+                canShoot = true;
+            }
+        }
+    }
+    
+    
+    /**
+    * Updates bullets, draws player and eye.
     */
     void draw() {
-        // Either shoot and then handle movement or just move (this way they can shoot and move "simultaneously")
-        if (shooting) {
-            bullet.fire();
-            bullet.draw();
-            ellipseMode(RADIUS);
-            ellipse(x,y,radius, radius);
-        } else {
-            bullet.reset(x,y);
-            ellipseMode(RADIUS);
-            ellipse(x,y,radius, radius);
-        }  
+        fire();
+        
+        ellipseMode(RADIUS);
+        ellipse(x,y,radius, radius);
+        
+        // Integrate bullets
+        if (bullets.size() > 0) {
+            for (int i = 0; i < bullets.size(); i++) {
+                Shooter_Bullet bullet = bullets.get(i);
+                bullet.update();
+                bullet.draw();
+            }
+        }
+        
         eye.draw();
     }
 }
