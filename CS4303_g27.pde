@@ -2,17 +2,12 @@ Shooter_Main shooter;
 boolean inShooterMode;
 import java.lang.Character;
 
-Shooter_Player player;
-final int SHOOTER_PLAYER_RADIUS = 25;
-
-
 /**
 * Initialises the game, creating the key objects.
 * (Window will be fullscreen for deployment)
 */
 void setup() {
     size(800,600);
-    player = new Shooter_Player(width/2,height/2,SHOOTER_PLAYER_RADIUS);
     shooter = new Shooter_Main();
     inShooterMode = true;
 }
@@ -24,27 +19,27 @@ void setup() {
 void keyPressed() {
     if (key == 'w' || key == 'W') {
         if (inShooterMode) {
-            player.setMovingForward(true);
+            shooter.setPlayerMovingForward(true);
         }
     }
     if (key == 'a' || key == 'A') {
         if (inShooterMode) {
-            player.setLookingCounterClock(true);
+            shooter.setPlayerLookingCounterClock(true);
         }
     }
     if (key == 's' || key == 'S') {
         if (inShooterMode) {
-            player.setMovingBackward(true);
+            shooter.setPlayerMovingBackward(true);
         }
     }
     if (key == 'd' || key == 'D') {
         if (inShooterMode) {
-            player.setLookingClock(true);
+            shooter.setPlayerLookingClock(true);
         }
     }
     if (key == ' ') {
         if (inShooterMode) {
-            player.setShooting(true);
+            shooter.setPlayerShooting(true);
         }
     }
 }
@@ -55,27 +50,27 @@ void keyPressed() {
 void keyReleased() {
     if (key == 'w' || key == 'W') {
         if (inShooterMode) {
-            player.setMovingForward(false);
+            shooter.setPlayerMovingForward(false);
         }
     }
     if (key == 'a' || key == 'A') {
         if (inShooterMode) {
-            player.setLookingCounterClock(false);
+            shooter.setPlayerLookingCounterClock(false);
         }
     }
     if (key == 's' || key == 'S') {
         if (inShooterMode) {
-            player.setMovingBackward(false);
+            shooter.setPlayerMovingBackward(false);
         }
     }
     if (key == 'd' || key == 'D') {
         if (inShooterMode) {
-            player.setLookingClock(false);
+            shooter.setPlayerLookingClock(false);
         }
     }
     if (key == ' ') {
         if (inShooterMode) {
-            player.setShooting(false);
+            shooter.setPlayerShooting(false);
         }
     }
 }

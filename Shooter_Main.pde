@@ -6,11 +6,59 @@
 
 class Shooter_Main {
     
+    private boolean playerMovingForward;
+    private boolean playerMovingBackward;
+    
+    private boolean playerLookingClock; // The player is moving the eye clockwise
+    private boolean playerLookingCounterClock; // The player is moving the eye counter-clockwise
+    private boolean playerShooting;
+    private final int PLAYER_RADIUS = 25;
+    private Shooter_Entity player;
+    
     /**
     * Constructor is empty for now but will likely need to level number to be passed to it.
     */
     Shooter_Main() {
+        player = new Shooter_Entity(width / 2,height / 2,PLAYER_RADIUS);
     }
+    
+    
+    public void setPlayerMovingForward(boolean playerMovingForward) {
+        this.playerMovingForward = playerMovingForward;
+    }
+    
+    public boolean isPlayerMovingBackward() {
+        return playerMovingBackward;
+    }
+    
+    public void setPlayerMovingBackward(boolean playerMovingBackward) {
+        this.playerMovingBackward = playerMovingBackward;
+    }
+    
+    public boolean isPlayerLookingClock() {
+        return playerLookingClock;
+    }
+    
+    public void setPlayerLookingClock(boolean playerLookingClock) {
+        this.playerLookingClock = playerLookingClock;
+    }
+    
+    public boolean isPlayerLookingCounterClock() {
+        return playerLookingCounterClock;
+    }
+    
+    public void setPlayerLookingCounterClock(boolean playerLookingCounterClock) {
+        this.playerLookingCounterClock = playerLookingCounterClock;
+    }
+    
+    public boolean isPlayerShooting() {
+        return playerShooting;
+    }
+    
+    public void setPlayerShooting(boolean playerShooting) {
+        this.playerShooting = playerShooting;
+    }
+    
     
     /**
     * Handles movement for the player and checks for object collisions (not window collisions).
@@ -20,23 +68,28 @@ class Shooter_Main {
     * other objects (enemies, items) to collide with and only the Shooter_Main should know about the 
     * other objects.
     */
-    void handleMovement() {
-        if (player.isLookingClock()) {
+    private void handlePlayer() {
+        player.setMovingBackward(playerMovingBackward);
+        player.setMovingForward(playerMovingForward);
+        player.setShooting(playerShooting);
+
+        if (playerLookingClock) {
             player.lookClockwise();
-        } else if (player.isLookingCounterClock()) {
+        } else if (playerLookingCounterClock) {
             player.lookCounterClockwise();
-        } if (player.isMovingForward()) {
+            
+        } if (playerMovingForward) {
             player.move(true);
-        } else if (player.isMovingBackward()) {
+        } else if (playerMovingBackward) {
             player.move(false);
         }
     }
     
-    /**
+    /** 
     * Draws everything in the shooter level
     */
     void draw() {
-        handleMovement();
+        handlePlayer();
         player.draw();
     }
 }
