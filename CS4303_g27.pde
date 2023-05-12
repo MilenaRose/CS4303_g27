@@ -7,6 +7,7 @@ import java.lang.Character;
 * (Window will be fullscreen for deployment)
 */
 void setup() {
+    //fullScreen();
     size(800,600);
     shooter = new Shooter_Main();
     inShooterMode = true;

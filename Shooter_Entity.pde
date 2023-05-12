@@ -3,38 +3,50 @@
 * An entity can only move forwards and backwards relative to the position of its eye.
 * An entity shoots from its eye.
 */
-
+import java.util.Iterator;
 
 class Shooter_Entity {
     private float x;
     private float y;
-    private int radius;
+    private float radius;
     
     private boolean movingForward;
     private boolean movingBackward;
     private boolean shooting;
     
     private Shooter_Eye eye;
-    private final int MOVE_SPEED = 4;  // Make this a percentage or something? Need to make sure that bullet are faster than entity!
-    private final float LOOK_SPEED = 3; // this is in degrees (should scale acording to diameter of entity).
-    private final int BULLET_WIDTH = 5;
-    private final int BULLET_HEIGHT = 5;
+    private float moveSpeed; 
+    private final float LOOK_SPEED = 3; // this is in degrees
+    private float bulletSize;
     private ArrayList<Shooter_Bullet> bullets;
     private boolean canShoot = true;
     private int canShootCounter;
-    private final int SHOOT_WAIT = 10;
+    private final int SHOOT_WAIT = 15; // How long to wait until the next bullet is fired.
+    
+    private final int INITAL_HEALTH = 100;
+    private int currentHealth;
+    private int bulletDamage;
     
     /**
     * Creates a shooter entity, the entity is a circle so a radius is needed
     * Initialises the bullet and eye.
     */
-    Shooter_Entity(float x, float y, int radius) {
+    Shooter_Entity(float x, float y, float radius, int bulletDamage) {
+        // calulate size of bullet based off entity radius
+        bulletSize = radius * 0.2;
+        
+        // calculate move speed based off radius
+        moveSpeed = radius * 0.15;
+        
         this.x = x;
         this.y = y;
         this.radius = radius;
+        this.bulletDamage = bulletDamage;
         movingForward = false;
         movingBackward = false;
         shooting = false;
+        currentHealth = INITAL_HEALTH;
+        
         eye = new Shooter_Eye(x,y,radius);
         bullets = new ArrayList<Shooter_Bullet>();
     }
@@ -70,7 +82,7 @@ class Shooter_Entity {
     /**
     * Returns the radius of the entity.
     */
-    public int getRadius() {
+    public float getRadius() {
         return radius;
     }
     
@@ -81,10 +93,16 @@ class Shooter_Entity {
         this.radius = radius;
     }
     
+    /**
+    * Sets whether the entity is moving forward (towards eye).
+    */
     public void setMovingForward(boolean movingForward) {
         this.movingForward = movingForward;
     }
     
+    /**
+    * Sets whether the entity is moving backwards (away from eye).
+    */
     public void setMovingBackward(boolean movingBackward) {
         this.movingBackward = movingBackward;
     }
@@ -104,7 +122,49 @@ class Shooter_Entity {
     }
     
     /**
-    * Rotate the eye clockwise
+    * Returns the array of this entity's bullets.
+    */
+    public ArrayList<Shooter_Bullet> getBullets() {
+        return bullets;
+    }
+    
+    /**
+    * Removes the given bullet from the array.
+    */
+    public void removeBullet(Shooter_Bullet bullet) {
+        bullets.remove(bullet);
+    }
+    
+    /**
+    * Returns the current health of the entity.
+    */
+    public int getHealth() {
+        return currentHealth;
+    }
+    
+    /**
+    * Sets the current health of the entity.
+    */
+    public void setHealth(int health) {
+        currentHealth = health;
+    }
+
+    /**
+    * Returns the bullet damage of the entity.
+    */
+    public int getDamage(){
+        return bulletDamage;
+    }
+
+    /**
+    * Sets the bullet damage of the entity.
+    */
+    public void setDamage(int damage){
+        bulletDamage = damage;
+    }
+    
+    /**
+    * Rotates the eye clockwise.
     */
     public void lookClockwise() {
         float angle = eye.getCurrentAngle();
@@ -116,7 +176,7 @@ class Shooter_Entity {
     }
     
     /**
-    * Rotate the eye counter-clockwise
+    * Rotates the eye counter-clockwise.
     */
     public void lookCounterClockwise() {
         float angle = eye.getCurrentAngle();
@@ -128,7 +188,7 @@ class Shooter_Entity {
     }
     
     /**
-    * Gets the direction that the entity's eye is facing
+    * Gets the direction that the entity's eye is facing.
     * Direction is returned as a normalised vector.
     */
     public PVector getAimingDirection() {
@@ -145,7 +205,6 @@ class Shooter_Entity {
     */
     private int canMove() {
         float angle = eye.getCurrentAngle();
-        print(angle + ": y = " + y + "\n");
         if (x <= 0) {      
             // // check if they're in the corners
             if (y >= height) {
@@ -165,7 +224,7 @@ class Shooter_Entity {
                     return 0;
                 }
             } else {
-                return (angle >= 0 && angle <= 180) ? 1 : 2;
+                return(angle >= 0 && angle <= 180) ? 1 : 2;
             }
         } 
         if (x >= width) {
@@ -186,22 +245,22 @@ class Shooter_Entity {
                     return 0;
                 }
             } else {
-                return (angle >= 180 && angle <= 360) ? 1 : 2;
+                return(angle >= 180 && angle <= 360) ? 1 : 2;
             }
         }
-
+        
         // no need to check the corners again
-        if(y <= 0){
-            return ((angle >= 0 && angle <= 90) || (angle >= 270 && angle <= 360)) ? 1 : 2;
-        } else if (y >= height){
-            return (angle >= 90 && angle <= 270) ? 1 : 2;
+        if (y <= 0) {
+            return((angle >= 0 && angle <= 90) || (angle >= 270 && angle <= 360)) ? 1 : 2;
+        } else if (y >= height) {
+            return(angle >= 90 && angle <= 270) ? 1 : 2;
         }
         
         return 3;
     }
     
     /**
-    * Moves the entity with towards (forward == true) or away from it's eye
+    * Moves the entity with towards (forward == true) or away from it's eye.
     * Checks for collisions before moving.
     */
     public void move(boolean forward) {
@@ -211,8 +270,8 @@ class Shooter_Entity {
             return;
         }
         
-        PVector result = getAimingDirection().mult(MOVE_SPEED);
-
+        PVector result = getAimingDirection().mult(moveSpeed);
+        
         if (forward && (validDirection == 1 || validDirection == 3)) {
             x = x + result.x;
             y = y + result.y;
@@ -230,11 +289,11 @@ class Shooter_Entity {
     public void fire() {
         if (shooting && canShoot) { 
             if (movingForward) {
-                bullets.add(new Shooter_Bullet(BULLET_WIDTH, BULLET_HEIGHT, eye.getX(),eye.getY(),getAimingDirection(), MOVE_SPEED));
+                bullets.add(new Shooter_Bullet(bulletSize, eye.getX(), eye.getY(),getAimingDirection(), moveSpeed, bulletDamage));
             } else if (movingBackward) {
-                bullets.add(new Shooter_Bullet(BULLET_WIDTH, BULLET_HEIGHT, eye.getX(),eye.getY(),getAimingDirection(),(MOVE_SPEED * - 1)));
+                bullets.add(new Shooter_Bullet(bulletSize, eye.getX(), eye.getY(),getAimingDirection(),(moveSpeed * - 1), bulletDamage));
             } else {
-                bullets.add(new Shooter_Bullet(BULLET_WIDTH, BULLET_HEIGHT, eye.getX(),eye.getY(),getAimingDirection(), 0));
+                bullets.add(new Shooter_Bullet(bulletSize, eye.getX(), eye.getY(),getAimingDirection(), 0, bulletDamage));
             }
             canShoot = false;
             canShootCounter = 0;
@@ -248,6 +307,7 @@ class Shooter_Entity {
     }
     
     
+    
     /**
     * Updates bullets, draws entity and eye.
     */
@@ -258,14 +318,15 @@ class Shooter_Entity {
         ellipse(x,y,radius, radius);
         
         // Integrate bullets
-        if (bullets.size() > 0) {
-            for (int i = 0; i < bullets.size(); i++) {
-                Shooter_Bullet bullet = bullets.get(i);
-                bullet.update();
-                
-                
-                bullet.draw();
+        Iterator<Shooter_Bullet> itr = bullets.iterator();
+        while(itr.hasNext()) {
+            Shooter_Bullet bullet = itr.next();
+            // If the bullet is out of bounds, remove it
+            if (bullet.getX() <= 0 || bullet.getX() >= width || bullet.getY() <= 0 || bullet.getY() >= height) {
+                itr.remove();
             }
+            bullet.update();
+            bullet.draw();
         }
         eye.draw();
     }

@@ -6,55 +6,76 @@
 class Shooter_Bullet{
     private float x;
     private float y;
-    private int _width;
-    private int _height;
+    private float radius;
     // To make sure that player can never run into their own bullets:
     // bullet_speed >= player_speed
-    private final int MOVE_INCREMENT = 8;
+    private float bulletSpeed;
     private PVector direction;
-    private int entity_speed;
+    private float entitySpeed;
+    private int bulletDamage;
     
     /**
     * Creates the bullet.
     */
-    Shooter_Bullet(int _width, int _height, float x, float y, PVector direction, int entity_speed) {
-        this._width = _width;
-        this._height = _height;
+    Shooter_Bullet(float radius, float x, float y, PVector direction, float entitySpeed, int bulletDamage) {
+        this.radius = radius;
         this.x = x;
         this.y = y;
         this.direction = direction;
         // This is the speed that the entity that fired the bullet was moving at the time of firing
-        this.entity_speed = entity_speed; 
+        this.entitySpeed = entitySpeed; 
+        this.bulletDamage = bulletDamage;
+        // Bullet speed is based off width, which is based off entity size which is based off window size
+        bulletSpeed = radius * 3;
+    }
+
+    /**
+    * Returns the x coordinate of the bullet.
+    */
+    public float getX(){
+        return x;
+    }
+
+    /**
+    * Returns the y coordinate of the bullet.
+    */
+    public float getY(){
+        return y;
+    }
+
+    /**
+    * Returns the radius of the bullet.
+    */
+    public float getRadius(){
+        return radius;
+    }
+
+    /**
+    * Returns the damage of the bullet.
+    */
+    public int getDamage(){
+        return bulletDamage;
     }
     
     /**
     * Updates the location of the bullet based on the aiming direction.
     */
-    public void update(){
-        // Have to jump through some hoops to avoid exponential speed
+    public void update() {
         PVector result = new PVector();
         result = direction.copy();
         // Player movement speed is added to bullet speed
         // https://science.howstuffworks.com/question456.htm
-        // Can be a bit weird if player is moving backwards, decreasing the bullet speed
-        result.mult(MOVE_INCREMENT + entity_speed);
+        result.mult(bulletSpeed + entitySpeed);
 
         x = x + result.x;
         y = y + result.y;
     }
     
     /**
-    * Reseats the position of the bullet.w
-    */
-    public void reset(float x, float y) {
-        this.x = x;
-        this.y = y;
-    }
-    
-    /**
     * Draws the bullet.
     */
     void draw() {
-        ellipse(x, y, _width, _height);
+        ellipseMode(RADIUS);
+        ellipse(x, y, radius, radius);
     }
 }

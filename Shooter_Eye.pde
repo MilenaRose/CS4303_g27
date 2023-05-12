@@ -6,7 +6,7 @@ class Shooter_Eye{
     private float x;
     private float y;
     private float radius;
-    private int parent_radius;
+    private float parent_radius;
     private float parent_x;
     private float parent_y;
     private float current_angle;
@@ -14,7 +14,7 @@ class Shooter_Eye{
     /**
     * Creates the eye and calcualtes its coordinates based on the player coordinates (parent).
     */
-    Shooter_Eye(float x, float y, int parent_radius) {
+    Shooter_Eye(float x, float y, float parent_radius) {
         this.parent_radius = parent_radius;
         this.parent_x = x;
         this.parent_y = y;
