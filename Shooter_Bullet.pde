@@ -8,7 +8,7 @@ class Shooter_Bullet{
     private float y;
     private float radius;
     // To make sure that player can never run into their own bullets:
-    // bullet_speed >= player_speed
+    // bullet_speed >= player_speed * 2
     private float bulletSpeed;
     private PVector direction;
     private float entitySpeed;

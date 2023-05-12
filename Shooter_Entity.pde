@@ -6,26 +6,26 @@
 import java.util.Iterator;
 
 class Shooter_Entity {
-    private float x;
-    private float y;
-    private float radius;
+    protected float y;
+    protected float radius;
+    protected float x;
     
-    private boolean movingForward;
-    private boolean movingBackward;
-    private boolean shooting;
+    protected boolean movingForward;
+    protected boolean movingBackward;
+    protected boolean shooting;
     
-    private Shooter_Eye eye;
-    private float moveSpeed; 
-    private final float LOOK_SPEED = 3; // this is in degrees
-    private float bulletSize;
-    private ArrayList<Shooter_Bullet> bullets;
-    private boolean canShoot = true;
-    private int canShootCounter;
-    private final int SHOOT_WAIT = 15; // How long to wait until the next bullet is fired.
+    protected Shooter_Eye eye;
+    protected float moveSpeed; 
+    protected final float LOOK_SPEED = 3; // this is in degrees
+    protected float bulletSize;
+    protected ArrayList<Shooter_Bullet> bullets;
+    protected boolean canShoot = true;
+    protected int canShootCounter;
+    protected final int SHOOT_WAIT = 15; // How long to wait until the next bullet is fired.
     
-    private final int INITAL_HEALTH = 100;
-    private int currentHealth;
-    private int bulletDamage;
+    protected final int INITAL_HEALTH = 100;
+    protected int currentHealth;
+    protected int bulletDamage;
     
     /**
     * Creates a shooter entity, the entity is a circle so a radius is needed
@@ -197,16 +197,16 @@ class Shooter_Entity {
     }
     
     /**
-    * Makes sure the entity cannot move out of bounds by checking the angle of it's eye.
+    * Makes sure the entity cannot move out of bounds by checking the angle of its eye.
     * 0 = cannot move
     * 1 = can move forward
     * 2 = can move backward
     * 3 = can move forward or backward
     */
-    private int canMove() {
+    protected int canMove() {
         float angle = eye.getCurrentAngle();
         if (x <= 0) {      
-            // // check if they're in the corners
+            // check if they're in the corners
             if (y >= height) {
                 if (angle >= 90 && angle <= 180) {
                     return 1;
@@ -249,7 +249,7 @@ class Shooter_Entity {
             }
         }
         
-        // no need to check the corners again
+        // No need to check the corners again
         if (y <= 0) {
             return((angle >= 0 && angle <= 90) || (angle >= 270 && angle <= 360)) ? 1 : 2;
         } else if (y >= height) {
@@ -260,10 +260,10 @@ class Shooter_Entity {
     }
     
     /**
-    * Moves the entity with towards (forward == true) or away from it's eye.
+    * Moves the entity forward (towards its eye) or backwards (away from it's eye).
     * Checks for collisions before moving.
     */
-    public void move(boolean forward) {
+    public void move() {
         int validDirection = canMove();
         
         if (validDirection == 0) {
@@ -272,10 +272,10 @@ class Shooter_Entity {
         
         PVector result = getAimingDirection().mult(moveSpeed);
         
-        if (forward && (validDirection == 1 || validDirection == 3)) {
+        if (movingForward && (validDirection == 1 || validDirection == 3)) {
             x = x + result.x;
             y = y + result.y;
-        } else if (validDirection == 2 || validDirection == 3) {
+        } else if (movingBackward && (validDirection == 2 || validDirection == 3)) {
             x = x - result.x;
             y = y - result.y;
         }
@@ -311,7 +311,7 @@ class Shooter_Entity {
     /**
     * Updates bullets, draws entity and eye.
     */
-    void draw() {
+    public void draw() {
         fire();
         
         ellipseMode(RADIUS);

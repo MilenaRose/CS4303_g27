@@ -2,6 +2,14 @@
 * This class handles the shooter side of the game. It is called from the main file.
 * All shooter files lead here.
 */
+
+/*
+* TODO:
+* Enemy types
+* Enemy waves
+* Enemy AI
+* Items
+*/
 import java.util.Iterator;
 
 class Shooter_Main {
@@ -98,19 +106,13 @@ class Shooter_Main {
         } else if (playerLookingCounterClock) {
             player.lookCounterClockwise();
             
-        } if (playerMovingForward) {
-            player.move(true);
-        } else if (playerMovingBackward) {
-            player.move(false);
+        } if (playerMovingForward || playerMovingBackward) {
+            player.move();
         }
     }
-    
-    // Check for collisions between entities
-    // Check each entity's bullets and then 
-    
-    
+       
     /**
-    * Checks whether the player's bullets have hit an enemy. If they have then that enemy loses health.
+    * Handles collisons between entities and entity bullets.
     */
     private void handleCollisions() {
         // e1 is the shooter, e2 is the shot
@@ -123,14 +125,11 @@ class Shooter_Main {
                 if(e1.equals(player)){
                     playerLost = true;
                 }
-                print("dead");
                 entities.remove(e1);
-
                 i--;
                 break;
             }
             
-
             for (int j = 0; j < entities.size(); j++) {
                 Shooter_Entity e2 = entities.get(j);
                  
@@ -167,8 +166,7 @@ class Shooter_Main {
     }
     
     /** 
-    * Draws everything in the shooter level
-    * Would be nice to just iterate over all entities once and leave it
+    * Draws everything in the shooter level.
     */
     void draw() {
         handlePlayer();
@@ -176,7 +174,7 @@ class Shooter_Main {
         for (Shooter_Entity entity : entities){
             entity.draw();
         }
-        // This is temporary
+        // This is temporary for testing
         for (Shooter_Enemy enemy : enemies) {
             enemy.setShooting(true);
         }
