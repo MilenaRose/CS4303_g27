@@ -2,6 +2,8 @@ Shooter_Main shooter;
 boolean inShooterMode;
 import java.lang.Character;
 
+boolean playerLost;
+
 /**
 * Initialises the game, creating the key objects.
 * (Window will be fullscreen for deployment)
@@ -11,6 +13,7 @@ void setup() {
     size(800,600);
     shooter = new Shooter_Main();
     inShooterMode = true;
+    playerLost = false;
 }
 
 /**
@@ -80,9 +83,15 @@ void keyReleased() {
 * Checks what state the game is in and then calls the correct object's draw method.
 */
 void draw() {
-    background(0);  
-    if (inShooterMode) {
-        shooter.draw();
+    if(!playerLost){
+        background(0);  
+        if (inShooterMode) {
+            shooter.draw();
+        }
+    } else {
+        background(0);
+        textSize(50);
+        text("Player Lost", width/2 - 100, height/2);
     }
     
 }

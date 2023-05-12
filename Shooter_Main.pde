@@ -36,7 +36,7 @@ class Shooter_Main {
         
         switch(level) {
             case 1:
-                enemies.add(new Shooter_Enemy(width / 2 - 10,height,playerRadius, 10));
+                enemies.add(new Shooter_Enemy(width / 2 - 100,height,playerRadius, 10));
                 break;
         }
         entities.addAll(enemies);       
@@ -117,6 +117,20 @@ class Shooter_Main {
         for (int i = 0; i < entities.size(); i++) {
             Shooter_Entity e1 = entities.get(i);
 
+            // First check if this entity is dead, if yes then remove from list
+            // Sadly it means its bullets will disappear when it dies but this could be a good thing
+            if(e1.getHealth() <= 0){
+                if(e1.equals(player)){
+                    playerLost = true;
+                }
+                print("dead");
+                entities.remove(e1);
+
+                i--;
+                break;
+            }
+            
+
             for (int j = 0; j < entities.size(); j++) {
                 Shooter_Entity e2 = entities.get(j);
                  
@@ -141,14 +155,6 @@ class Shooter_Main {
             }
         }
     }
-
-    /**
-    * Checks for entites with zero or less health and removes them from the game.
-    * If the player loses all their health, they lose.
-    */
-    private void checkForDead(){
-
-    }
     
     /**
     * Returns true if two ellipses are colliding (assumes that the ellipses are circles).
@@ -162,14 +168,17 @@ class Shooter_Main {
     
     /** 
     * Draws everything in the shooter level
+    * Would be nice to just iterate over all entities once and leave it
     */
     void draw() {
         handlePlayer();
-        player.draw();
+        handleCollisions();
+        for (Shooter_Entity entity : entities){
+            entity.draw();
+        }
+        // This is temporary
         for (Shooter_Enemy enemy : enemies) {
             enemy.setShooting(true);
-            enemy.draw();
         }
-        handleCollisions();
     }
 }
