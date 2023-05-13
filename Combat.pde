@@ -3,13 +3,15 @@
 public class Combat {
     public Monster monster;
     public Player player;
+    String[] playerAttacks;
     public boolean textforHit = false;
     public boolean attackText = false;
 
 
-    Combat(Player player,Monster monster) {
+    public Combat(Player player,Monster monster) {
         this.player = player;
         this.monster = monster;
+        this.playerAttacks = player.getAttacks();
         //monsterPos = new PVector(width - 700, 300);
         //playerPos = new PVector(370, height - 400);
     }
@@ -29,10 +31,10 @@ public class Combat {
         //if needed
         //text("Enter your choice", 40, height - 200);
         textSize(50);
-        text("1 - ATTACK 1", sectionLength - 150 , height - 150);
-        text("2 - ATTACK 2", 2*sectionLength - 150, height - 150);
-        text("3 - MOVE 3", 3*sectionLength - 150, height - 150); // if hit reduces monster defense by 25% chance to hit.
-        text("4 - MOVE 4" , 4*sectionLength - 150, height - 150); // if hit reduces monster attack by 50% chance to hit.
+        text("1 - " + playerAttacks[0], sectionLength - 150 , height - 150);
+        text("2 - " + playerAttacks[1], 2*sectionLength - 150, height - 150);
+        text("3 - " + playerAttacks[2], 3*sectionLength - 150, height - 150); // if hit reduces monster defense by 25% chance to hit.
+        text("4 - " + playerAttacks[3] , 4*sectionLength - 150, height - 150); // if hit reduces monster attack by 50% chance to hit.
         textSize(25);
         fill(35,35,35);
         text("Attack : " + player.attack, 40, height - 360);

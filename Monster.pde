@@ -6,39 +6,39 @@ public class Monster {
     int max_Velocity = 8;
     int velocityX = 0;
     int velocityY = 0;
-    int max_health = 10;
+    int max_health = 50;
     int attack = 2;
     int defense = 5;
     int health;
     int xp = 10;
     float initialX;
     float initialY;
-    Monster(float x, float y, float width, float height) {
-        this.position.x = x;
-        this.position.y = y;
-        initialX = x;
-        initialY = y;
-        this.width = width;
-        this.height = height;
+    Monster() {
+        // this.position.x = x;
+        // this.position.y = y;
+        // initialX = x;
+        // initialY = y;
+        // this.width = width;
+        // this.height = height;
         health = max_health;
     }
 
-        public void setVelocity() {
-        this.velocityX = (int) random(-max_Velocity, max_Velocity);
-        this.velocityY = (int) random(-max_Velocity, max_Velocity);
-    }
+    //     public void setVelocity() {
+    //     this.velocityX = (int) random(-max_Velocity, max_Velocity);
+    //     this.velocityY = (int) random(-max_Velocity, max_Velocity);
+    // }
 
-    public void updateMonster() {
-        velocity.x = velocityX;
-        velocity.y = velocityY;
-        position.add(velocity);
-        velocity.mult(0);
-    }
+    // public void updateMonster() {
+    //     velocity.x = velocityX;
+    //     velocity.y = velocityY;
+    //     position.add(velocity);
+    //     velocity.mult(0);
+    // }
 
-    public void reverse() {
-        velocityX = -velocityX;
-        velocityY = -velocityY;
-    }
+    // public void reverse() {
+    //     velocityX = -velocityX;
+    //     velocityY = -velocityY;
+    // }
 
     public boolean alive() {
         if(health == 0) {
@@ -48,8 +48,8 @@ public class Monster {
         }
     }
 
-    public PVector getCenter() {
-        PVector center = new PVector(position.x + width/2, position.y + height/2);
-        return center;
-    }
+    // public PVector getCenter() {
+    //     PVector center = new PVector(position.x + width/2, position.y + height/2);
+    //     return center;
+    // }
 }
