@@ -17,7 +17,7 @@ public class Player {
     ArrayList<String> equipped = new ArrayList<String>();
     ArrayList<String> inventory = new ArrayList<String>();
     ArrayList<Integer> inventoryCount = new ArrayList<Integer>();
-    String[] attacks = {"Soul Reap", "Mortal Desolation", "Attack3", "Death Mark", "Eternal Torment"};
+    String[] attacks = {"Soul Reap", "Mortal Desolation", "Death Mark", "Eternal Torment"};
     HashMap<String, Object> soul_reap = new HashMap<String, Object>();
     HashMap<String, Object> mortal_desolation = new HashMap<String, Object>();
     HashMap<String, Object> death_mark = new HashMap<String, Object>();
@@ -261,9 +261,6 @@ public class Player {
         else if (attack.equals("Death Mark")) {
             return death_mark;
         }
-        // else if(attack.equals("Stellar Grasp")){
-        //  return stellar_Grasp;
-    // }
         else if (attack.equals("Eternal Torment")) {
             return eternal_torment;
         }

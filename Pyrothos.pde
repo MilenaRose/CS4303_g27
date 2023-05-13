@@ -1,7 +1,7 @@
 //Pyrothos : the Infernal Pyromancer (Power: Heat and Energy Manipulation)
 import java.util.HashMap;
-class Pyrothos extends Monster{
-    int max_health = 200;
+class Pyrothos {
+    int max_health = 1000;
     HashMap<String, Object> celestial_connection = new HashMap<String, Object>();
     HashMap<String, Object> energy_Absorption = new HashMap<String, Object>();
     HashMap<String, Object> inferno_Nova = new HashMap<String, Object>();
@@ -11,8 +11,9 @@ class Pyrothos extends Monster{
     int agility = 0;
     int god_level = 50;
     int defense = 0;
+    int health;
     public Pyrothos() {
-        super();
+        health = max_health;
         initiateAttacks();
     }
 

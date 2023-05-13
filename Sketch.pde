@@ -1,8 +1,8 @@
 boolean inventoryMode;
 boolean combatMode;
-Combat battle;
+// Combat battle;
 Player player;
-Monster monster;
+// Monster monster;
 boolean attackAnimation;
 boolean attackAnimationMonster;
 public boolean textforHit = false;
@@ -47,9 +47,6 @@ void draw() {
         } else if (combatMode || terramorMode) {
             if (terramorMode) {
                 terramor_combat.combatDisplay();
-            }
-            else{
-                //battle.combatDisplay();
             }
             if (attackText) {
                 fill(0);
@@ -123,10 +120,7 @@ public void keyReleased() {
             } else {
                 deny = true;
             }
-            //battle.attack(2);
-            //attackAnimationMonster = true;
-            //battle.spell();
-            //battle.monsterAttack();
+
         } 
         else if (key == '3' && !attacking) { //decide whether the player can run away or not.
             available = player_combat.checkPlayerAttack(3);
@@ -139,10 +133,7 @@ public void keyReleased() {
             } else {
                 deny = true;
             }
-            //battle.attack(3);
-            //attackAnimationMonster = true;
-            //battle.run();
-            //combatMode = !combatMode;
+
         } 
         else if (key == '4' && !attacking) {
             available = player_combat.checkPlayerAttack(4);
@@ -155,23 +146,21 @@ public void keyReleased() {
             } else {
                 deny = true;
             }
-            //battle.attack(4);
-            //attackAnimationMonster = true;
-            //battle.enchantment();
-            //battle.monsterAttack();
-        } else if(key == '5' && !attacking) {
-            available = player_combat.checkPlayerAttack(5);
-            if(available != -1) {
-            attacking = true;
-            attackAnimation = true;
-            attackText = true;
-            bullet = new PVector(0,0);
-            attackType = 5;
-            } else {
-                deny = true;
-                println("denied" + deny);
-            }            
-        }
+
+        } 
+        // else if(key == '5' && !attacking) {
+        //     available = player_combat.checkPlayerAttack(5);
+        //     if(available != -1) {
+        //     attacking = true;
+        //     attackAnimation = true;
+        //     attackText = true;
+        //     bullet = new PVector(0,0);
+        //     attackType = 5;
+        //     } else {
+        //         deny = true;
+        //         println("denied" + deny);
+        //     }            
+        // }
     }
 }
 
@@ -179,8 +168,8 @@ public void initialize() {
     inventoryMode = false;
     combatMode = false;
     player = new Player(width / 2, height / 2 , 50, 50);
-    monster = new Monster();
-    battle = new Combat(player, monster);
+    // monster = new Monster();
+    // battle = new Combat(player, monster);
     attackAnimation = false;
     attackAnimationMonster = false;
     monsterPos = new PVector(width - 700, 300);
@@ -227,15 +216,8 @@ public void projectile(PVector direction) {
         currentRound++;
         attacking = false;
         attackText = false;
-        //battle.monsterAttack();
     }
 }
-
-// public void attacking(String god, int attackType) {
-//     if (god.equals("Terramor")) {
-//         terramor_combat.attack(attackType);
-//     }
-// }
 
 public void godAttacking(String god) {
     if (god.equals("Terramor")) {

@@ -158,7 +158,7 @@ public class Terramor_combat {
         text("2 - " + playerAttacks[1], 2 * sectionLength - 150, height - 150);
         text("3 - " + playerAttacks[2], 3 * sectionLength - 60, height - 150); // if hit reduces monster defense by 25% chance to hit.
         text("4 - " + playerAttacks[3] , 4 * sectionLength - 100, height - 150); // if hit reduces monster attack by 50% chance to hit.
-        text("5 - " + playerAttacks[4], 2 * sectionLength - 60, height - 80); // if hit reduces monster attack by 50% chance to hit.
+        //text("5 - " + playerAttacks[4], 2 * sectionLength - 60, height - 80); // if hit reduces monster attack by 50% chance to hit.
         textSize(25);
         fill(35,35,35);
         text("Crticial energy : " + player.critic_power_energy, 40, height - 360);

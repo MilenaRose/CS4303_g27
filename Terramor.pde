@@ -11,7 +11,7 @@ class Terramor{
     HashMap<String, Object> stellar_Grasp = new HashMap<String, Object>();
     HashMap<String, Object> terraforge = new HashMap<String, Object>();
     // stats
-    int critic_power_energy = 95;
+    int critic_power_energy = 0;
     int agility = 0;
     int god_level = 25;
     int defense = 0;
