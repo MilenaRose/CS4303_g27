@@ -31,8 +31,8 @@ class Shooter_Main {
     private final int ENEMY_LV1_DMG = 5;
     private final int ENEMY_LV1_SHOOT_WAIT = 15;
     
-    private final int ENEMY_LV2_HEALTH = 50;
-    private final int ENEMY_LV2_DMG = 10;
+    private final int ENEMY_LV2_HEALTH = 52;
+    private final int ENEMY_LV2_DMG = 7;
     private final int ENEMY_LV2_SHOOT_WAIT = 15;
     
     private final int LV1_TOTAL_ENEMIES = 10;

@@ -39,7 +39,8 @@ boolean attacking = false;
 * (Window will be fullscreen for deployment)
 */
 void setup() {
-    fullScreen();
+    //fullScreen();
+    size(800,600);
     initialise();
 }
 
@@ -69,7 +70,7 @@ void initialise() {
 * Progresses to the next shooter level
 */
 void nextShooterLevel() {
-    shooter_level++;
+    shooter_level = 2;
     shooter = new Shooter_Main(shooter_level);
     inShooterMode = true;
 }
@@ -180,9 +181,9 @@ void keyReleased() {
             shooter.setPlayerShooting(false);
         }
     } if (key == 'r' || key == 'R') {
-        if (playerLost) {
+        if (playerLost || won) {
             initialise();
-        }
+        } 
     } 
     if (terramorMode == true && !inventoryMode) {
         if (key == '1' && !attacking) { // have to change this to a switch statement
