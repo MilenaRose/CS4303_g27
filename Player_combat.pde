@@ -8,8 +8,6 @@ public class Player_combat {
     public boolean aftereffect = false;
     public String attackToRecur;
     public int roundsToRecur;
-    public boolean textforHit = false;
-    public boolean attackText = false;
     // boolean marked = false;
     
     
@@ -60,12 +58,11 @@ public class Player_combat {
             } else {
                 textforHit = false;
             }
-            
-            
         }
         if (terramor.health <= 0) {
             terramor.health = 0;
-            won = true;
+            terramorMode = false;
+            nextShooterLevel();
         }
     }
     
@@ -81,9 +78,7 @@ public class Player_combat {
         if (aftereffectType.equals("attack")) {
             return currentAttackType;
         }
-        //println("current attack type: " + playerAttacks[currentAttackType]);
         attackGetter = player.getAttack(playerAttacks[currentAttackType]);
-        // println((int)attackGetter.get("round_used"));
         if (currentRound - (int)attackGetter.get("round_used") < (int)attackGetter.get("cooldown")) {
             // Attack is inside cooldown period
             return -1;

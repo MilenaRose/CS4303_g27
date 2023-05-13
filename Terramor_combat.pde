@@ -31,7 +31,7 @@ public class Terramor_combat {
     //         //     textforHit = false;
     //     // }
     //     }
-    // }
+// }
     public void monsterAttack() {
         if (currentAttackType == -1) {
             return;
@@ -115,10 +115,10 @@ public class Terramor_combat {
     }
     
     public int accuracyofAttack() {
-        if(weak) {
+        if (weak) {
             return(int) random(40,100);
         } else {
-        return(int) random(0, 101);
+            return(int) random(0, 101);
         }
     }
     
@@ -166,12 +166,16 @@ public class Terramor_combat {
         fill(0);
         text("Critical energy : " + terramor.critic_power_energy, width - 250, 200);
         text("God Level : " + terramor.god_level, width - 250, 230);
-        if(marked) {
+        if (marked) {
             text("Marked", width - 250, 260);
         }
-        //println(attackText);
+        if(weak) {
+            text("Weakened", width - 250, 290);
+        }
+        
         if (attackText) {if (textforHit) {text("Hit!", width / 2, height / 2);
-        } else { text("Miss!", width / 2, height / 2);
+            } else { 
+                text("Miss!", width / 2, height / 2);
             }
         }
     }

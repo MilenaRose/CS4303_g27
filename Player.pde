@@ -79,85 +79,6 @@ public class Player {
         }
     }
     
-    // public void teleport(PVector pos) {
-    //     this.position = pos;
-// }
-    
-    // public void gotItem(String item) {
-    //     if (!inventory.contains(item)) {
-    //         inventory.add(item);
-    //         inventoryCount.add(1);
-    //     } else {
-    //         int index = inventory.indexOf(item);
-    //         inventoryCount.set(index, inventoryCount.get(index) + 1);
-    //     }
-    
-// }
-    
-    // public void useItem(int index) {
-    //         boolean used = false;
-    
-    //         System.out.println(inventory.get(index));
-    //         System.out.println(index);
-    //         if(inventory.get(index).equals("Health Potion")) {
-    //             if(health != max_health) {
-    //                 health += 2;
-    //                 used = true;
-    //                 if(health > max_health) {
-    //                     health = max_health;
-    //                 }
-    //             }
-    //         } else if(inventory.get(index).equals("Attack Potion")) {
-    //             if(attack!= max_attack) {
-    //             attack += 1;
-    //             used = true;
-    //             if(attack > max_attack) {
-    //                 attack = max_attack;
-    //             }
-    //             }
-    //         } else if(inventory.get(index).equals("Defense Potion")) {
-    //             if(defense != max_defense) {
-    //             defense += 1;
-    //             used = true;
-    //             if(defense > max_defense) {
-    //                 defense = max_defense;
-    //             }
-    
-    //         } 
-    //         } else if(inventory.get(index).equals("Sword")) {
-    //             attack += 2;
-    //             used = true;
-    //             equipped.add("Sword");
-    //         } else if(inventory.get(index).equals("Shield")) {
-    //             defense += 2;
-    //             used = true;
-    //             equipped.add("Shield");
-    //         } else if(inventory.get(index).equals("Armour")) {
-    //             System.out.println("Armour");
-    //             defense += 2;
-    //             used = true;
-    //             equipped.add("Armour");
-    //         } else if(inventory.get(index).equals("Ring")) {
-    //             attack += 2;
-    //             used = true;
-    //             equipped.add("Ring");
-    //         }
-    
-    //         if(used) {
-    //         inventoryCount.set(index, inventoryCount.get(index) - 1);
-    //     if (inventoryCount.get(index) == 0) {
-    //         inventory.remove(index);
-    //         inventoryCount.remove(index);
-    
-    //         }
-    //         }
-// }
-    
-    // public PVector getCenter() {
-    //     PVector center = new PVector(this.position.x + (this.width / 2), this.position.y + (this.height / 2));
-    //     return center;
-// }
-    
     public void initiateAttacks() {
         //Soul reap
         soul_reap.put("name", "Soul Reap"); 
@@ -196,6 +117,7 @@ public class Player {
         mortal_desolation.put("type", "energy"); //physical attack
         mortal_desolation.put("critic_power", 15); //critical power energy increases by 10
         mortal_desolation.put("round_used", 0); //round used
+        mortal_desolation.put("round_recurred", 0); //round charged
         mortal_desolation.put("description", "The player unleashes a wave of deathly energy that spreads through the battlefield, inducing decay and deterioration upon all it touches.\n The very essence of life crumbles before them, leaving their enemies weakened and vulnerable.");
         //death_mark
         death_mark.put("name", "Death's Mark");
