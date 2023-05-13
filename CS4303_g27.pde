@@ -96,7 +96,8 @@ public void projectile(PVector direction) {
         
         attackOfMonster = terramor_combat.getMonsterAttack();
         attackAnimationMonster = !attackAnimationMonster;
-        monsterAttacksText = !monsterAttacksText;
+        attackText = false;
+        monsterAttacksText = true;
     } else if (bullet.x <= direction.x && bullet.y >= direction.y && attackAnimationMonster && !attackAnimation) {
         if (attackOfMonster != -1) {
             bullet.mult(0);
@@ -289,7 +290,8 @@ void draw() {
                 text("You used " + player_combat.getPlayerAttackName(attackType), width / 2, height - 200);
                 //attackText = false;
             }
-        } else if (monsterAttacksText) {
+        } 
+        if (monsterAttacksText) {
             fill(0);
             textSize(30);
             text(god + " used " + terramor_combat.getMonsterAttackName(), width / 2, height - 200);
