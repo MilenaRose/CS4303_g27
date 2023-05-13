@@ -20,7 +20,7 @@ class Shooter_Main {
     private final int INIT_PLAYER_DMG = 20;
     private final int INIT_PLAYER_HEALTH = 200;
     private ArrayList<Shooter_Entity> entities;
-
+    
     private final int ENEMY_LV1_HEALTH = 50;
     private final int ENEMY_LV1_DMG = 5;
     private final int ENEMY_LV1_SHOOT_WAIT = 15;
@@ -32,12 +32,11 @@ class Shooter_Main {
     private final int LV1_TOTAL_ENEMIES = 10;
     private final int LV2_TOTAL_ENEMIES = 10;
     
-    private final int MAX_WAVES = 3;
+    private final int MAX_WAVES = 0;
     private final int WAVE_SIZE = 3;
     
     private int currentWave;
     private Shooter_Portal portal;
-    private boolean portalLocked;
     private int level;
     
     /**
@@ -45,7 +44,6 @@ class Shooter_Main {
     */
     Shooter_Main(int level) {
         entities = new ArrayList();
-        portalLocked = true;
         this.level = level;
         
         // Calculate player radius based on screen size
@@ -195,13 +193,22 @@ class Shooter_Main {
         }
     }
     
-    // Spawns another wave of enemies depending on level
+    /* 
+    * Spawns another wave of enemies.
+    */ 
     void spawnWave() {
         currentWave++;
         for (int i = 0; i < WAVE_SIZE; i++) {
             spawnEnemy();
         }
         entities.addAll(enemies);
+    }
+    
+    /**
+    * Checks for collision between player and portal.
+    */
+    boolean portalCollision() {
+        return ellipseCollision(player.getX(), player.getY(), player.getRadius(), portal.getX(), portal.getY(), portal.getRadius());
     }
     
     /** 
@@ -218,9 +225,11 @@ class Shooter_Main {
             spawnWave();
             
         } else if (currentWave == MAX_WAVES && enemies.size() == 0) {
-            portalLocked = false;
             portal.draw();
-            // check for portal collisions
+            if (portalCollision()) {
+                // this will call the next comabt level function
+                nextShooterLevel();
+            }
         }
     }
 }

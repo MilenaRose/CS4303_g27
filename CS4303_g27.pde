@@ -3,7 +3,7 @@ boolean inShooterMode;
 import java.lang.Character;
 
 boolean playerLost;
-int level;
+int shooter_level;
 
 /**
 * Initialises the game, creating the key objects.
@@ -12,17 +12,26 @@ int level;
 void setup() {
     //fullScreen();
     size(800,600);
-initialise();
+    initialise();
 }
 
 /**
 * Initialises the game
 */
-void initialise(){
-        level = 1;
-     shooter = new Shooter_Main(level);
-         inShooterMode = true;
+void initialise() {
+    shooter_level = 1;
+    shooter = new Shooter_Main(shooter_level);
+    inShooterMode = true;
     playerLost = false;
+}
+
+/**
+* Progresses to the next shooter level
+*/
+void nextShooterLevel(){
+    shooter_level++;
+    shooter = new Shooter_Main(shooter_level);
+    inShooterMode = true;
 }
 
 /**
@@ -85,8 +94,8 @@ void keyReleased() {
         if (inShooterMode) {
             shooter.setPlayerShooting(false);
         }
-    } if(key == 'r' || key == 'R'){
-        if(playerLost){
+    } if (key == 'r' || key == 'R') {
+        if (playerLost) {
             initialise();
         }
     }
@@ -119,7 +128,7 @@ void draw() {
         background(0);  
         if (inShooterMode) {
             shooter.draw();
-        }
+        } // else if comabat mode
     } else {
         background(0);
         textSize(50);

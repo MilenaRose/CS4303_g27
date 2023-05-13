@@ -6,14 +6,36 @@ class Shooter_Portal {
     private float x;
     private float y;
     private float radius;
-
-    Shooter_Portal(float x, float y, float radius){
+    
+    Shooter_Portal(float x, float y, float radius) {
         this.x = x;
         this.y = y;
         this.radius = radius;
     }
-
-    void draw(){
+    
+    /**
+    * Returns the x coordinate of the portal.
+    */
+    public float getX() {
+        return x;
+    }
+    
+    /**
+    * Returns the x coordinate of the portal.
+    */
+    public float getY() {
+        return y;
+    }
+    
+    /**
+    * Returns the radius of the portal.
+    */
+    public float getRadius() {
+        return radius;
+    }
+    
+    
+    void draw() {
         ellipseMode(RADIUS);
         ellipse(x,y,radius, radius);
     }
