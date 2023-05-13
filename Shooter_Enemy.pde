@@ -1,4 +1,5 @@
 import java.lang.Math;
+import java.util.Random;
 
 /**
 * Shooter Enemy is a subclass of Shooter Entity, with added enemy AI.
@@ -8,20 +9,21 @@ class Shooter_Enemy extends Shooter_Entity {
     private float targetY;
     private float targetAngle;
     private Shooter_Entity player;
-    private float detectionRadius; // this is the radius that bullets and the player are detected.
-    private int clearCounter; // determines how many times to move forward when stuck.
+    private float detectionRadius; // This is the radius that bullets and the player are detected.
+    private int clearCounter; // Determines how many times to move forward when stuck.
     private final int CLEAR_WAIT = 20;
     private boolean stuck;
     
     /**
     * Constructor calls superclass constructor and initialises variables specific to enemies.
     */
-    Shooter_Enemy(float x, float y, float radius, int bulletDamage, Shooter_Entity player) {
-        super(x,y,radius, bulletDamage);
+    Shooter_Enemy(float x, float y, float radius, int bulletDamage, int health, float spawnAngle, float moveModifier, int shootWait, Shooter_Entity player) {
+        super(x,y,radius, bulletDamage, health, spawnAngle, moveModifier, shootWait);
         
         detectionRadius = radius * 5;
         stuck = false;
         clearCounter = 0;
+        shooting = false;
         
         // Enemies need to know player information.
         this.player = player;
@@ -45,7 +47,6 @@ class Shooter_Enemy extends Shooter_Entity {
         }
         
         float result = (float) degrees;
-        
         return abs(result);
     }
     
@@ -74,7 +75,7 @@ class Shooter_Enemy extends Shooter_Entity {
     /**
     * Turns the enemy towrds or away from the target.
     */
-    private void orientToTarget(boolean faceTowards) {
+    private void orientToTarget(boolean faceTowards, float targetAngle) {
         if (faceTowards) {
             if (smallerClockwise(targetAngle)) {
                 lookClockwise();
@@ -105,26 +106,16 @@ class Shooter_Enemy extends Shooter_Entity {
     }
     
     /**
-    * Sets the target coordinates and angle.
-    */
-    private void setTarget(float targetX, float targetY, float targetAngle) {
-        this.targetX = x;
-        this.targetY = y;
-        this.targetAngle = targetAngle;
-    }
-
-    /**
     * Determines whether or not to shoot.
     */
-    private void shootAtPlayer(){
+    private void shootAtPlayer() {
         float playerAngle = calculateAngle(player.getX(), player.getY());
-        if(eye.getCurrentAngle() >= playerAngle - 20|| eye.getCurrentAngle() <= playerAngle + 20){
+        if (eye.getCurrentAngle() >= playerAngle - 3 && eye.getCurrentAngle() <= playerAngle + 3) {
             // Make it more random whether or not they will shoot:
-
-            shooting = true;
+            Random rand = new Random();
+            float chance = rand.nextFloat();
+            shooting = chance >= 0.75;
         } else {
-            print(eye.getCurrentAngle() + "   " + (eye.getCurrentAngle() >= playerAngle + 20) + "    ");
-            print(playerAngle + "\n");
             shooting = false;
         }
     }
@@ -133,20 +124,17 @@ class Shooter_Enemy extends Shooter_Entity {
     * Decides what the enemy will do in terms of movement and orientation.
     */
     private void decide() {
-
         // Check if you're stuck in the edge if so then move towards player
         if (canMove() != 3) {
             print(clearCounter);
             stuck = true;
             clearCounter++;
-            setTarget(player.getX(), player.getY(), calculateAngle(player.getX(), player.getY()));
-            orientToTarget(true);
+            orientToTarget(true, calculateAngle(player.getX(), player.getY()));
             chase(true);
             return;
         } else if (clearCounter < CLEAR_WAIT && stuck) {
             clearCounter++;
-            setTarget(player.getX(), player.getY(), calculateAngle(player.getX(), player.getY()));
-            orientToTarget(true);
+            orientToTarget(true, calculateAngle(player.getX(), player.getY()));
             chase(true);
             return;
         } else {
@@ -154,40 +142,42 @@ class Shooter_Enemy extends Shooter_Entity {
             clearCounter = 0;
         }
         
-        
-        // Check whether there are any bullets heading towards the enemy
+        // Check whether there are any bullets heading towards the enemy, if yes then run away
         for (Shooter_Bullet bullet : player.getBullets()) {
             if (ellipseCollision(bullet.getX(), bullet.getY(), bullet.getRadius(), x, y, detectionRadius)) {
-                setTarget(bullet.getX(), bullet.getY(), calculateAngle(bullet.getX(), bullet.getY()));
-                orientToTarget(true);
+                orientToTarget(true, calculateAngle(bullet.getX(), bullet.getY()));
                 chase(false);
                 return;
             }
         }
-
+        
         // Check if player is within detection radius, if yes then flee (unless in a corner).
-        if (ellipseCollision(player.getX(), player.getY(), player.getRadius(), x, y, detectionRadius)){
-            setTarget(player.getX(), player.getY(), calculateAngle(player.getX(), player.getY()));
-            orientToTarget(true);
+        if (ellipseCollision(player.getX(), player.getY(), player.getRadius(), x, y, detectionRadius)) {
+            orientToTarget(true, calculateAngle(player.getX(), player.getY()));
             chase(false);
             return;
         }
-
+        
         // Check current health - if below 50% then run away from player
-        if(currentHealth < (INITAL_HEALTH /2)){
-            setTarget(player.getX(), player.getY(), calculateAngle(player.getX(), player.getY()));
-            orientToTarget(false);
+        if (currentHealth < (initialHealth / 2)) {
+            orientToTarget(false, calculateAngle(player.getX(), player.getY()));
             chase(false);
             return;
         }
-
+        
         // Otherwise maybe turn towards player or move in a random direction
         // Random number generation
-        setTarget(player.getX(), player.getY(), calculateAngle(player.getX(), player.getY()));
-        orientToTarget(true);
-    }    
+        Random rand = new Random();
+        float chance = rand.nextFloat();
+        if (chance <= 0.4) {
+            orientToTarget(true, calculateAngle(player.getX(), player.getY()));
+        } else if (chance <= 0.7){
+            orientToTarget(true, rand.nextFloat() * 360);
+            chase(true);
+        }
+    }   
     
-    /**
+    /** 
     * Calls the superclass function and then applies enemy AI.
     */
     @Override

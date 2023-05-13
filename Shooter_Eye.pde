@@ -14,15 +14,14 @@ class Shooter_Eye{
     /**
     * Creates the eye and calcualtes its coordinates based on the parent's coordinates.
     */
-    Shooter_Eye(float x, float y, float parentRadius) {
+    Shooter_Eye(float x, float y, float parentRadius, float spawnAngle) {
         this.parentRadius = parentRadius;
         this.parentX = x;
         this.parentY = y;
         this.x = x;
         this.y = y;
         radius = parentRadius * (0.20); 
-        // Entities spawn looking up
-        currentAngle = 180; 
+        currentAngle = spawnAngle; 
         PVector coords = calcCoordsFromAngle(currentAngle, parentX, parentY, parentRadius);
         x = coords.x;
         y = coords.y;

@@ -3,6 +3,7 @@ boolean inShooterMode;
 import java.lang.Character;
 
 boolean playerLost;
+int level;
 
 /**
 * Initialises the game, creating the key objects.
@@ -11,8 +12,16 @@ boolean playerLost;
 void setup() {
     //fullScreen();
     size(800,600);
-    shooter = new Shooter_Main();
-    inShooterMode = true;
+initialise();
+}
+
+/**
+* Initialises the game
+*/
+void initialise(){
+        level = 1;
+     shooter = new Shooter_Main(level);
+         inShooterMode = true;
     playerLost = false;
 }
 
@@ -76,6 +85,10 @@ void keyReleased() {
         if (inShooterMode) {
             shooter.setPlayerShooting(false);
         }
+    } if(key == 'r' || key == 'R'){
+        if(playerLost){
+            initialise();
+        }
     }
 }
 
@@ -111,6 +124,7 @@ void draw() {
         background(0);
         textSize(50);
         text("Player Lost", width / 2 - 100, height / 2);
+        text("Press R to restart", width / 2 - 150, height / 2 - 100);
     }
     
 }

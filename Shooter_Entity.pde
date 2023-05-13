@@ -22,9 +22,9 @@ class Shooter_Entity {
     protected ArrayList<Shooter_Bullet> bullets;
     protected boolean canShoot = true;
     protected int canShootCounter;
-    protected final int SHOOT_WAIT = 15; // How long to wait until the next bullet is fired.
+    protected int shootWait; // How long to wait until the next bullet is fired.
+    protected int initialHealth;
     
-    protected final int INITAL_HEALTH = 100;
     protected int currentHealth;
     protected int bulletDamage;
     
@@ -32,12 +32,13 @@ class Shooter_Entity {
     * Creates a shooter entity, the entity is a circle so a radius is needed
     * Initialises the bullet and eye.
     */
-    Shooter_Entity(float x, float y, float radius, int bulletDamage) {
+    Shooter_Entity(float x, float y, float radius, int bulletDamage, int health, float spawnAngle, float moveModifier, int shootWait) {
         // calulate size of bullet based off entity radius
         bulletSize = radius * 0.2;
+        this.shootWait = shootWait;
         
         // calculate move speed based off radius
-        moveSpeed = radius * 0.15;
+        moveSpeed = radius * 0.15 + moveModifier;
         
         this.x = x;
         this.y = y;
@@ -46,9 +47,10 @@ class Shooter_Entity {
         movingForward = false;
         movingBackward = false;
         shooting = false;
-        currentHealth = INITAL_HEALTH;
+        initialHealth = health;
+        currentHealth = initialHealth;
         
-        eye = new Shooter_Eye(x,y,radius);
+        eye = new Shooter_Eye(x,y,radius, spawnAngle);
         bullets = new ArrayList<Shooter_Bullet>();
     }
     
@@ -301,7 +303,7 @@ class Shooter_Entity {
         }
         if (!canShoot) {
             canShootCounter++;
-            if (canShootCounter == SHOOT_WAIT) {
+            if (canShootCounter == shootWait) {
                 canShoot = true;
             }
         }
