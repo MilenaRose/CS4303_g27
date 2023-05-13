@@ -3,17 +3,9 @@
 * All shooter files lead here.
 */
 
-/*
-* TODO:
-* Enemy types
-* Enemy waves
-* Enemy AI
-* Items
-*/
 import java.util.Iterator;
 
 class Shooter_Main {
-    
     private boolean playerMovingForward;
     private boolean playerMovingBackward;
     
@@ -44,7 +36,7 @@ class Shooter_Main {
         
         switch(level) {
             case 1:
-                enemies.add(new Shooter_Enemy(width / 2 - 100,height,playerRadius, 10));
+                enemies.add(new Shooter_Enemy(width / 2 - 100,height-100,playerRadius, 10, player));
                 break;
         }
         entities.addAll(enemies);       
@@ -155,16 +147,6 @@ class Shooter_Main {
         }
     }
     
-    /**
-    * Returns true if two ellipses are colliding (assumes that the ellipses are circles).
-    */
-    private boolean ellipseCollision(float x1, float y1, float radius1, float x2, float y2, float radius2) {
-        float distance = dist(x1, y1, x2, y2);
-        float radiusSum = radius1 + radius2;
-        
-        return distance < radiusSum;
-    }
-    
     /** 
     * Draws everything in the shooter level.
     */
@@ -173,10 +155,6 @@ class Shooter_Main {
         handleCollisions();
         for (Shooter_Entity entity : entities){
             entity.draw();
-        }
-        // This is temporary for testing
-        for (Shooter_Enemy enemy : enemies) {
-            enemy.setShooting(true);
         }
     }
 }

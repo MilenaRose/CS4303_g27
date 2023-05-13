@@ -7,8 +7,6 @@ class Shooter_Bullet{
     private float x;
     private float y;
     private float radius;
-    // To make sure that player can never run into their own bullets:
-    // bullet_speed >= player_speed * 2
     private float bulletSpeed;
     private PVector direction;
     private float entitySpeed;
@@ -25,7 +23,9 @@ class Shooter_Bullet{
         // This is the speed that the entity that fired the bullet was moving at the time of firing
         this.entitySpeed = entitySpeed; 
         this.bulletDamage = bulletDamage;
-        // Bullet speed is based off width, which is based off entity size which is based off window size
+        /* Bullet speed is based off width, which is based off entity size which is based off window size
+        *  To make sure an entity can never run into their own bullets:
+        *  bullet_speed >= player_speed * 2 */
         bulletSpeed = radius * 3;
     }
 
@@ -64,7 +64,7 @@ class Shooter_Bullet{
         PVector result = new PVector();
         result = direction.copy();
         // Player movement speed is added to bullet speed
-        // https://science.howstuffworks.com/question456.htm
+        // https://science.howstuffworks.com/question456.html
         result.mult(bulletSpeed + entitySpeed);
 
         x = x + result.x;

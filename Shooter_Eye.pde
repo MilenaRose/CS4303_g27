@@ -23,7 +23,9 @@ class Shooter_Eye{
         radius = parentRadius * (0.20); 
         // Entities spawn looking up
         currentAngle = 180; 
-        calcCoords(currentAngle);
+        PVector coords = calcCoordsFromAngle(currentAngle, parentX, parentY, parentRadius);
+        x = coords.x;
+        y = coords.y;
     }
     
     public float getX(){
@@ -63,18 +65,12 @@ class Shooter_Eye{
     }
     
     /**
-    * Sets the eye coordinates given an angle and based on the parent center and radius.
-    */
-    public void calcCoords(float angle) {
-        x = (parentRadius * sin(radians(angle))) + parentX;
-        y = (parentRadius * cos(radians(angle))) + parentY;
-    }
-    
-    /**
     * Updates the eye coordinates and draws it.
     */
     void draw() {
-        calcCoords(currentAngle);
+        PVector coords = calcCoordsFromAngle(currentAngle, parentX, parentY, parentRadius);
+        x = coords.x;
+        y = coords.y;
         ellipse(x,y,radius,radius);
     }
 }

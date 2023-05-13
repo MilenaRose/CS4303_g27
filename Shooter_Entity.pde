@@ -306,8 +306,6 @@ class Shooter_Entity {
         }
     }
     
-    
-    
     /**
     * Updates bullets, draws entity and eye.
     */

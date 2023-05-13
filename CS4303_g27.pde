@@ -80,10 +80,29 @@ void keyReleased() {
 }
 
 /**
+* Returns true if two ellipses are colliding (assumes that the ellipses are circles).
+*/
+public boolean ellipseCollision(float x1, float y1, float radius1, float x2, float y2, float radius2) {
+    float distance = dist(x1, y1, x2, y2);
+    float radiusSum = radius1 + radius2;
+    
+    return distance < radiusSum;
+}
+
+/**
+* Finds the coordinates of a point on a circle given an angle, center of the circle and radius.
+*/
+public PVector calcCoordsFromAngle(float angle, float offsetX, float offsetY, float radius) {
+    float x = (radius * sin(radians(angle))) + offsetX;
+    float y = (radius * cos(radians(angle))) + offsetY;
+    return new PVector(x,y);
+}
+
+/**
 * Checks what state the game is in and then calls the correct object's draw method.
 */
 void draw() {
-    if(!playerLost){
+    if (!playerLost) {
         background(0);  
         if (inShooterMode) {
             shooter.draw();
@@ -91,7 +110,7 @@ void draw() {
     } else {
         background(0);
         textSize(50);
-        text("Player Lost", width/2 - 100, height/2);
+        text("Player Lost", width / 2 - 100, height / 2);
     }
     
 }
