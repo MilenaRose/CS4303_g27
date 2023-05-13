@@ -143,7 +143,7 @@ public class Player {
         //can only be used once per battle
         //and when critical power energy is at 100
         eternal_torment.put("name", "Eternal Torment"); 
-        eternal_torment.put("power", 1000); //damage of the attack
+        eternal_torment.put("power", 300); //damage of the attack
         eternal_torment.put("accuracy", 90); //chance of the attack hitting
         eternal_torment.put("charges",0); //no charge,sudden
         eternal_torment.put("cooldown", 1000); //cooldown of 5 rounds

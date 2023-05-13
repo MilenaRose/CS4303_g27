@@ -54,7 +54,7 @@ class Terramor{
         geomantic_Rupture.put("round_used", 0); //round used
         //terraforge
         terraforge.put("power", randomPower()); //damage of the attack
-        terraforge.put("accuracy", 55); //chance of the attack hitting
+        terraforge.put("accuracy", 80); //chance of the attack hitting
         terraforge.put("cost", 15); //cost of the attack (Celestial Energy)
         terraforge.put("rounds",3); //attacks for 3 rounds before stopping
         terraforge.put("cooldown", 2); //cooldown of 3 rounds
@@ -70,7 +70,7 @@ class Terramor{
         terraforge.put("round_used", 0); //round used
         //Stellar Grasp
         stellar_Grasp.put("power", 45); //damage of the attack
-        stellar_Grasp.put("accuracy", 65); //chance of the attack hitting
+        stellar_Grasp.put("accuracy", 75); //chance of the attack hitting
         stellar_Grasp.put("cost", 50); //cost of the attack (Celestial Energy)
         stellar_Grasp.put("charges",1); //charges for 1 round before attacking
         stellar_Grasp.put("cooldown", 3); //cooldown of 3 rounds
