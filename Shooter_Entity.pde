@@ -17,7 +17,7 @@ class Shooter_Entity {
     
     protected Shooter_Eye eye;
     protected float moveSpeed; 
-    protected final float LOOK_SPEED = 3; // this is in degrees
+    protected final float LOOK_SPEED = 4; // this is in degrees
     protected float bulletSize;
     protected ArrayList<Shooter_Bullet> bullets;
     protected boolean canShoot = true;
@@ -108,6 +108,22 @@ class Shooter_Entity {
     */
     public void setMovingBackward(boolean movingBackward) {
         this.movingBackward = movingBackward;
+    }
+
+    public int getShootWait(){
+        return shootWait;
+    }
+
+    public void setShootWait(int shootWait){
+        this.shootWait = shootWait;
+    }
+
+    public int getBulletDamage(){
+        return bulletDamage;
+    } 
+
+    public void setBulletDamage(int bulletDamage){
+        this.bulletDamage = bulletDamage;
     }
     
     /**

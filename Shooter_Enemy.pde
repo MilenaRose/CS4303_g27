@@ -13,6 +13,7 @@ class Shooter_Enemy extends Shooter_Entity {
     private int clearCounter; // Determines how many times to move forward when stuck.
     private final int CLEAR_WAIT = 20;
     private boolean stuck;
+    private Random rand;
     
     /**
     * Constructor calls superclass constructor and initialises variables specific to enemies.
@@ -20,6 +21,7 @@ class Shooter_Enemy extends Shooter_Entity {
     Shooter_Enemy(float x, float y, float radius, int bulletDamage, int health, float spawnAngle, float moveModifier, int shootWait, Shooter_Entity player) {
         super(x,y,radius, bulletDamage, health, spawnAngle, moveModifier, shootWait);
         
+        rand = new Random();
         detectionRadius = radius * 5;
         stuck = false;
         clearCounter = 0;
@@ -112,7 +114,6 @@ class Shooter_Enemy extends Shooter_Entity {
         float playerAngle = calculateAngle(player.getX(), player.getY());
         if (eye.getCurrentAngle() >= playerAngle - 3 && eye.getCurrentAngle() <= playerAngle + 3) {
             // Make it more random whether or not they will shoot:
-            Random rand = new Random();
             float chance = rand.nextFloat();
             shooting = chance >= 0.75;
         } else {
@@ -167,7 +168,6 @@ class Shooter_Enemy extends Shooter_Entity {
         
         // Otherwise maybe turn towards player or move in a random direction
         // Random number generation
-        Random rand = new Random();
         float chance = rand.nextFloat();
         if (chance <= 0.4) {
             orientToTarget(true, calculateAngle(player.getX(), player.getY()));

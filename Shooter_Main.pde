@@ -17,9 +17,12 @@ class Shooter_Main {
     private Shooter_Entity player;
     
     private ArrayList<Shooter_Enemy> enemies;
+    private ArrayList<Shooter_Entity> entities;
+    
     private final int INIT_PLAYER_DMG = 20;
     private final int INIT_PLAYER_HEALTH = 200;
-    private ArrayList<Shooter_Entity> entities;
+    
+    private ArrayList<Shooter_Item> items;
     
     private final int ENEMY_LV1_HEALTH = 50;
     private final int ENEMY_LV1_DMG = 5;
@@ -32,37 +35,46 @@ class Shooter_Main {
     private final int LV1_TOTAL_ENEMIES = 10;
     private final int LV2_TOTAL_ENEMIES = 10;
     
-    private final int MAX_WAVES = 0;
+    private final int MAX_WAVES = 1; // ------------------------------------------ CHANGE THIS
     private final int WAVE_SIZE = 3;
+    
+    private final int ITEM_SPAWN_INTERVAL = 4; // this is goups of 60 frames (so seconds if fps = 60)
+    private int itemSpawnTimer;
+    private float itemRadius;
     
     private int currentWave;
     private Shooter_Portal portal;
     private int level;
+    private Random rand;
     
     /**
     * Constructor creates player and enemies for level. Enemies are spawned based on the level number.
     */
     Shooter_Main(int level) {
         entities = new ArrayList();
+        items = new ArrayList();
+        enemies = new ArrayList();
         this.level = level;
+        rand = new Random();
+        itemRadius = (width + height) * 0.005;
+        itemSpawnTimer = 0;
         
         // Calculate player radius based on screen size
         float playerRadius = (width + height) * 0.015;
         player = new Shooter_Entity(width * 0.1, height / 2, playerRadius, INIT_PLAYER_DMG, INIT_PLAYER_HEALTH, 90, PLAYER_MOVE_MOD, PLAYER_SHOOT_WAIT);
         entities.add(player);
         
-        // Spawn enemies depending on level number
-        enemies = new ArrayList();
-        
         currentWave = 0;
         
         float portalRadius = (width + height) * 0.05;
-        
-        portal = new Shooter_Portal(width / 2, height / 2, portalRadius);
-        
-        entities.addAll(enemies);       
+        portal = new Shooter_Portal(width / 2, height / 2, portalRadius);    
     }
     
+    
+    /**
+    * Spawns an enemy on the right hand side of the sceen, facing left.
+    * Different enemies depending on level.
+    */
     private void spawnEnemy() {
         PVector spawnCoords = randomiseSpawn(width - (width * 0.1), width - (width * 0.05), 0 + (height * 0.05), height - (height * 0.05));
         float spawnX = spawnCoords.x;
@@ -82,7 +94,6 @@ class Shooter_Main {
     * Generate random coordinates within a range.
     */
     PVector randomiseSpawn(float minX, float maxX, float minY, float maxY) {
-        Random rand = new Random();
         float randX = rand.nextFloat() * (maxX - minX) + minX;
         float randY = rand.nextFloat() * (maxY - minY) + minY;
         return new PVector(randX, randY);
@@ -196,7 +207,7 @@ class Shooter_Main {
     /* 
     * Spawns another wave of enemies.
     */ 
-    void spawnWave() {
+    private void spawnWave() {
         currentWave++;
         for (int i = 0; i < WAVE_SIZE; i++) {
             spawnEnemy();
@@ -207,8 +218,49 @@ class Shooter_Main {
     /**
     * Checks for collision between player and portal.
     */
-    boolean portalCollision() {
+    private boolean portalCollision() {
         return ellipseCollision(player.getX(), player.getY(), player.getRadius(), portal.getX(), portal.getY(), portal.getRadius());
+    }
+    
+    private void spawnItem() {
+        float itemX = width;
+        float itemY = rand.nextFloat() * height;
+        
+        int type = rand.nextInt(3);
+        int power = 0;
+        switch(type) {
+            case 1:
+                // Health increase
+                power = rand.nextInt((INIT_PLAYER_HEALTH - 20) + INIT_PLAYER_HEALTH);
+                break;
+            case 2:
+                power = 1;
+                break;
+            case 3:
+                power = rand.nextInt((10 - 2) + 2);
+                break;
+        }
+        
+        Shooter_Item item = new Shooter_Item(itemX, itemY, itemRadius, type, power);
+        items.add(item);
+        
+    } 
+
+    /**
+    * Applies the affects of an item to the player.
+    */
+    private void useItem(Shooter_Item item){
+        switch(item.getType()){
+            case 1:
+            player.setHealth(player.getHealth() + item.getPower());
+            break;
+            case 2:
+            player.setShootWait(player.getShootWait() + item.getPower());
+            break;
+            case 3:
+            player.setBulletDamage(player.getBulletDamage() + item.getPower());
+            break;
+        }
     }
     
     /** 
@@ -223,13 +275,32 @@ class Shooter_Main {
         
         if (currentWave < MAX_WAVES && enemies.size() == 0) {
             spawnWave();
-            
         } else if (currentWave == MAX_WAVES && enemies.size() == 0) {
             portal.draw();
             if (portalCollision()) {
                 // this will call the next comabt level function
                 nextShooterLevel();
             }
+        }
+        for (int i = items.size() - 1; i >= 0; i--) {
+            Shooter_Item item = items.get(i);
+            // check if player has collected it
+            
+            
+            // check if it's out of bounds
+            if(ellipseCollision(player.getX(), player.getY(), player.getRadius(), item.getX(), item.getY(), item.getRadius())){
+                useItem(item);
+                items.remove(item);
+            }
+            else if (item.getX() <= 0) {
+                items.remove(item);
+            } else {
+                item.draw();
+            }
+        }
+        
+        if ((frameCount % (60 * ITEM_SPAWN_INTERVAL)) == 1) {
+            spawnItem();
         }
     }
 }
