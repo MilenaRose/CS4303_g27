@@ -38,8 +38,8 @@ boolean attacking = false;
 * (Window will be fullscreen for deployment)
 */
 void setup() {
-    //fullScreen();
-    size(800,600);
+    fullScreen();
+    //size(800,600); -- for testing
     initialise();
 }
 
