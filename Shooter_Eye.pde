@@ -28,10 +28,16 @@ class Shooter_Eye{
         y = coords.y;
     }
     
+    /**
+    * Returns the x coordinate of the eye.
+    */
     public float getX(){
         return x;
     }
 
+    /**
+    * Returns the y coordinate of the eye.
+    */
     public float getY(){
         return y;
     }

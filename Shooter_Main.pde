@@ -1,10 +1,9 @@
+import java.util.Iterator;
+
 /**
 * This class handles the shooter side of the game. It is called from the main file.
 * All shooter files lead here.
 */
-
-import java.util.Iterator;
-
 class Shooter_Main {
     private boolean playerMovingForward;
     private boolean playerMovingBackward;
@@ -20,7 +19,7 @@ class Shooter_Main {
     private ArrayList<Shooter_Entity> entities;
     
     /**
-    * Constructor is empty for now but will likely need to level number to be passed to it.
+    * Constructor creates player and enemies for level. Enemies are spawned based on the level number.
     */
     Shooter_Main() {
         int level = 1;
@@ -42,39 +41,37 @@ class Shooter_Main {
         entities.addAll(enemies);       
     }
     
-    
+    /*
+    * Sets the player to move forward.
+    */
     public void setPlayerMovingForward(boolean playerMovingForward) {
         this.playerMovingForward = playerMovingForward;
     }
     
-    public boolean isPlayerMovingBackward() {
-        return playerMovingBackward;
-    }
-    
+    /*
+    * Sets the player to move backwards.
+    */
     public void setPlayerMovingBackward(boolean playerMovingBackward) {
         this.playerMovingBackward = playerMovingBackward;
     }
-    
-    public boolean isPlayerLookingClock() {
-        return playerLookingClock;
-    }
-    
+
+    /**
+    * Sets the player to look clockwise.
+    */
     public void setPlayerLookingClock(boolean playerLookingClock) {
         this.playerLookingClock = playerLookingClock;
     }
     
-    public boolean isPlayerLookingCounterClock() {
-        return playerLookingCounterClock;
-    }
-    
+    /**
+    * Sets the player to look counter-clockwise.
+    */
     public void setPlayerLookingCounterClock(boolean playerLookingCounterClock) {
         this.playerLookingCounterClock = playerLookingCounterClock;
     }
     
-    public boolean isPlayerShooting() {
-        return playerShooting;
-    }
-    
+    /**
+    * Sets the player to shoot.
+    */
     public void setPlayerShooting(boolean playerShooting) {
         this.playerShooting = playerShooting;
     }

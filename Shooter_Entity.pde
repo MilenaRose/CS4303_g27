@@ -1,9 +1,10 @@
+import java.util.Iterator;
+
 /**
 * This class creates the shooter entity (a player or enemy) with its 'eye' and bullets.
 * An entity can only move forwards and backwards relative to the position of its eye.
 * An entity shoots from its eye.
 */
-import java.util.Iterator;
 
 class Shooter_Entity {
     protected float y;

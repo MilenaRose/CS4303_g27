@@ -1,5 +1,8 @@
 import java.lang.Math;
 
+/**
+* Shooter Enemy is a subclass of Shooter Entity, with added enemy AI.
+*/
 class Shooter_Enemy extends Shooter_Entity {
     private float targetX;
     private float targetY;
@@ -10,6 +13,9 @@ class Shooter_Enemy extends Shooter_Entity {
     private final int CLEAR_WAIT = 20;
     private boolean stuck;
     
+    /**
+    * Constructor calls superclass constructor and initialises variables specific to enemies.
+    */
     Shooter_Enemy(float x, float y, float radius, int bulletDamage, Shooter_Entity player) {
         super(x,y,radius, bulletDamage);
         
@@ -65,8 +71,9 @@ class Shooter_Enemy extends Shooter_Entity {
         }
     }
     
-    // generally want to move backwards when fleeing from player, forwards away from bullets
-    // forwards when chasing player.
+    /**
+    * Turns the enemy towrds or away from the target.
+    */
     private void orientToTarget(boolean faceTowards) {
         if (faceTowards) {
             if (smallerClockwise(targetAngle)) {
@@ -97,13 +104,18 @@ class Shooter_Enemy extends Shooter_Entity {
         movingBackward = false;
     }
     
+    /**
+    * Sets the target coordinates and angle.
+    */
     private void setTarget(float targetX, float targetY, float targetAngle) {
         this.targetX = x;
         this.targetY = y;
         this.targetAngle = targetAngle;
     }
 
-    // The enemy shoots at the player if they are facing towards them
+    /**
+    * Determines whether or not to shoot.
+    */
     private void shootAtPlayer(){
         float playerAngle = calculateAngle(player.getX(), player.getY());
         if(eye.getCurrentAngle() >= playerAngle - 20|| eye.getCurrentAngle() <= playerAngle + 20){
@@ -117,7 +129,9 @@ class Shooter_Enemy extends Shooter_Entity {
         }
     }
     
-    
+    /**
+    * Decides what the enemy will do in terms of movement and orientation.
+    */
     private void decide() {
 
         // Check if you're stuck in the edge if so then move towards player
@@ -173,6 +187,9 @@ class Shooter_Enemy extends Shooter_Entity {
         orientToTarget(true);
     }    
     
+    /**
+    * Calls the superclass function and then applies enemy AI.
+    */
     @Override
     public void draw() {
         super.draw(); // This will call method from super class
