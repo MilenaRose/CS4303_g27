@@ -38,7 +38,7 @@ class Shooter_Main {
     private final int LV1_TOTAL_ENEMIES = 10;
     private final int LV2_TOTAL_ENEMIES = 10;
     
-    private final int MAX_WAVES = 3; // ------------------------------------------ CHANGE THIS
+    private final int MAX_WAVES = 3; // ---------- CHANGE THIS FOR TESTING
     private final int WAVE_SIZE = 3;
     
     private final int ITEM_SPAWN_INTERVAL = 4; // this is goups of 60 frames (so seconds if fps = 60)
@@ -292,8 +292,6 @@ class Shooter_Main {
         
         for (int i = items.size() - 1; i >= 0; i--) {
             Shooter_Item item = items.get(i);
-            // check if player has collected it
-            // check if it's out of bounds
             if(ellipseCollision(player.getX(), player.getY(), player.getRadius(), item.getX(), item.getY(), item.getRadius())){
                 useItem(item);
                 items.remove(item);
@@ -314,9 +312,15 @@ class Shooter_Main {
         } else if (currentWave >= MAX_WAVES && enemies.size() == 0) {
             portal.draw();
             if (portalCollision()) {
-                // this will call the next comabt level function
-                nextShooterLevel();
+                if(level == 1){
+                inShooterMode = false;
+                terramorMode = true;
+                } else {
+                    inShooterMode = false;
+                    won = true;
+                }
             }
         }
     }
 }
+
