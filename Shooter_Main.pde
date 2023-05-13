@@ -172,7 +172,6 @@ class Shooter_Main {
             // First check if this entity is dead, if yes then remove from list
             // Sadly it means its bullets will disappear when it dies but this could be a good thing
             if (e1.getHealth() <= 0) {
-                print("hit");
                 if (e1.equals(player)) {
                     lost = true;
                     inShooterMode = false;
