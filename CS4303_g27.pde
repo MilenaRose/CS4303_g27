@@ -2,7 +2,6 @@ Shooter_Main shooter;
 boolean inShooterMode;
 import java.lang.Character;
 
-boolean playerLost;
 int shooter_level;
 
 boolean inventoryMode;
@@ -181,7 +180,7 @@ void keyReleased() {
             shooter.setPlayerShooting(false);
         }
     } if (key == 'r' || key == 'R') {
-        if (playerLost || won) {
+        if (lost || won) {
             initialise();
         } 
     } 
