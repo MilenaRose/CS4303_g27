@@ -10,10 +10,13 @@ class Shooter_Item {
     private float radius;
     private int type;
     private int power;
-    private final int MOVR_SPEED = 4;
+    private final int MOVE_SPEED = 4;
     
     /**
-    *
+    * Creates an item of  given type with a given power. Types:
+    * 1 = increase health
+    * 2 = decrease shoot interval
+    * 3 = increase bullet damage
     */
     Shooter_Item(float x, float y, float radius, int type, int power) {
         this.x = x;
@@ -61,8 +64,11 @@ class Shooter_Item {
         return power;
     }
 
+    /**
+    * Moves the item across the screen from right to left.
+    */
     private void update(){
-        x = x - MOVR_SPEED;
+        x = x - MOVE_SPEED;
     }
     
     /**
@@ -71,7 +77,20 @@ class Shooter_Item {
     void draw() {
         update();
         ellipseMode(RADIUS);
+        
+        switch(type){
+            case 1:
+            fill(3, 255, 32);
+            break;
+            case 2:
+            fill(3, 192, 255);
+            break;
+            case 3:
+            fill(192, 3, 255);
+            break;
+        }
         ellipse(x,y,radius, radius);
+        fill(255);
     }
 
 }

@@ -35,7 +35,7 @@ class Shooter_Main {
     private final int LV1_TOTAL_ENEMIES = 10;
     private final int LV2_TOTAL_ENEMIES = 10;
     
-    private final int MAX_WAVES = 1; // ------------------------------------------ CHANGE THIS
+    private final int MAX_WAVES = 3; // ------------------------------------------ CHANGE THIS
     private final int WAVE_SIZE = 3;
     
     private final int ITEM_SPAWN_INTERVAL = 4; // this is goups of 60 frames (so seconds if fps = 60)
@@ -226,7 +226,7 @@ class Shooter_Main {
         float itemX = width;
         float itemY = rand.nextFloat() * height;
         
-        int type = rand.nextInt(3);
+        int type = rand.nextInt((3 - 1) + 1) + 1;
         int power = 0;
         switch(type) {
             case 1:
@@ -262,31 +262,33 @@ class Shooter_Main {
             break;
         }
     }
+
+    private void displayStats(){
+        int textHeight = height-20;
+        textSize(25);
+        text("Health: " +player.getHealth(), width/2 - 30, textHeight);
+        text("Shoot interval: " + player.getShootWait(), 20, textHeight);
+        text("Damage: " + player.getBulletDamage(), width - 200, textHeight);
+    }
     
     /** 
     * Draws everything in the shooter level.
     */
     void draw() {
+        displayStats();
         handlePlayer();
         handleCollisions();
-        for (Shooter_Entity entity : entities) {
-            entity.draw();
+        fill(3, 45, 255);
+        player.draw();
+        fill(176, 4, 4);
+        for (Shooter_Enemy enemy : enemies) {
+            enemy.draw();
         }
+        fill(255);
         
-        if (currentWave < MAX_WAVES && enemies.size() == 0) {
-            spawnWave();
-        } else if (currentWave == MAX_WAVES && enemies.size() == 0) {
-            portal.draw();
-            if (portalCollision()) {
-                // this will call the next comabt level function
-                nextShooterLevel();
-            }
-        }
         for (int i = items.size() - 1; i >= 0; i--) {
             Shooter_Item item = items.get(i);
             // check if player has collected it
-            
-            
             // check if it's out of bounds
             if(ellipseCollision(player.getX(), player.getY(), player.getRadius(), item.getX(), item.getY(), item.getRadius())){
                 useItem(item);
@@ -301,6 +303,16 @@ class Shooter_Main {
         
         if ((frameCount % (60 * ITEM_SPAWN_INTERVAL)) == 1) {
             spawnItem();
+        }
+
+        if (currentWave < MAX_WAVES && enemies.size() == 0) {
+            spawnWave();
+        } else if (currentWave >= MAX_WAVES && enemies.size() == 0) {
+            portal.draw();
+            if (portalCollision()) {
+                // this will call the next comabt level function
+                nextShooterLevel();
+            }
         }
     }
 }

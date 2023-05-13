@@ -37,6 +37,10 @@ class Shooter_Portal {
     
     void draw() {
         ellipseMode(RADIUS);
+        fill(112, 3, 255);
         ellipse(x,y,radius, radius);
+        fill(0);
+        ellipse(x,y, radius - (radius*0.1), radius - (radius*0.1));
+        fill(255);
     }
 }

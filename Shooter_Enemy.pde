@@ -127,7 +127,6 @@ class Shooter_Enemy extends Shooter_Entity {
     private void decide() {
         // Check if you're stuck in the edge if so then move towards player
         if (canMove() != 3) {
-            print(clearCounter);
             stuck = true;
             clearCounter++;
             orientToTarget(true, calculateAngle(player.getX(), player.getY()));
