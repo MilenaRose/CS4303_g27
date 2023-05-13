@@ -18,8 +18,8 @@ class Shooter_Enemy extends Shooter_Entity {
     /**
     * Constructor calls superclass constructor and initialises variables specific to enemies.
     */
-    Shooter_Enemy(float x, float y, float radius, int bulletDamage, int health, float spawnAngle, float moveModifier, int shootWait, Shooter_Entity player) {
-        super(x,y,radius, bulletDamage, health, spawnAngle, moveModifier, shootWait);
+    Shooter_Enemy(float x, float y, float radius, int bulletDamage, int health, float spawnAngle, float moveModifier, int shootWait, float lookSpeed, Shooter_Entity player) {
+        super(x,y,radius, bulletDamage, health, spawnAngle, moveModifier, shootWait, lookSpeed);
         
         rand = new Random();
         detectionRadius = radius * 5;
@@ -125,6 +125,7 @@ class Shooter_Enemy extends Shooter_Entity {
     * Decides what the enemy will do in terms of movement and orientation.
     */
     private void decide() {
+        float chance;
         // Check if you're stuck in the edge if so then move towards player
         if (canMove() != 3) {
             stuck = true;
@@ -145,8 +146,11 @@ class Shooter_Enemy extends Shooter_Entity {
         // Check whether there are any bullets heading towards the enemy, if yes then run away
         for (Shooter_Bullet bullet : player.getBullets()) {
             if (ellipseCollision(bullet.getX(), bullet.getY(), bullet.getRadius(), x, y, detectionRadius)) {
-                orientToTarget(true, calculateAngle(bullet.getX(), bullet.getY()));
-                chase(false);
+                chance = rand.nextFloat();
+                    if (chance >=  0.2) {
+                        orientToTarget(true, calculateAngle(bullet.getX(), bullet.getY()));
+                        chase(false);
+                }
                 return;
             }
         }
@@ -167,10 +171,10 @@ class Shooter_Enemy extends Shooter_Entity {
         
         // Otherwise maybe turn towards player or move in a random direction
         // Random number generation
-        float chance = rand.nextFloat();
+        chance = rand.nextFloat();
         if (chance <= 0.4) {
             orientToTarget(true, calculateAngle(player.getX(), player.getY()));
-        } else if (chance <= 0.7){
+        } else if (chance <= 0.7) {
             orientToTarget(true, rand.nextFloat() * 360);
             chase(true);
         }

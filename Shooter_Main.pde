@@ -12,8 +12,10 @@ class Shooter_Main {
     private boolean playerLookingCounterClock; // The player is moving the eye counter-clockwise
     private boolean playerShooting;
     private final int PLAYER_RADIUS = 25;
-    private final int PLAYER_MOVE_MOD = 1;
-    private final int PLAYER_SHOOT_WAIT = 8;
+    private final float PLAYER_MOVE_MOD = 0.5;
+    private final int PLAYER_SHOOT_WAIT = 10;
+    private final float PLAYER_LOOK_SPEED = 4;
+    
     private Shooter_Entity player;
     
     private ArrayList<Shooter_Enemy> enemies;
@@ -24,6 +26,7 @@ class Shooter_Main {
     
     private ArrayList<Shooter_Item> items;
     
+    private final int ENEMY_LOOK_SPEED = 2;
     private final int ENEMY_LV1_HEALTH = 50;
     private final int ENEMY_LV1_DMG = 5;
     private final int ENEMY_LV1_SHOOT_WAIT = 15;
@@ -61,7 +64,7 @@ class Shooter_Main {
         
         // Calculate player radius based on screen size
         float playerRadius = (width + height) * 0.015;
-        player = new Shooter_Entity(width * 0.1, height / 2, playerRadius, INIT_PLAYER_DMG, INIT_PLAYER_HEALTH, 90, PLAYER_MOVE_MOD, PLAYER_SHOOT_WAIT);
+        player = new Shooter_Entity(width * 0.1, height / 2, playerRadius, INIT_PLAYER_DMG, INIT_PLAYER_HEALTH, 90, PLAYER_MOVE_MOD, PLAYER_SHOOT_WAIT, PLAYER_LOOK_SPEED);
         entities.add(player);
         
         currentWave = 0;
@@ -76,16 +79,16 @@ class Shooter_Main {
     * Different enemies depending on level.
     */
     private void spawnEnemy() {
-        PVector spawnCoords = randomiseSpawn(width - (width * 0.1), width - (width * 0.05), 0 + (height * 0.05), height - (height * 0.05));
+        PVector spawnCoords = randomiseSpawn(width - (width * 0.1), width - (width * 0.5), 0 + (height * 0.05), height - (height * 0.05));
         float spawnX = spawnCoords.x;
         float spawnY = spawnCoords.y;
         float radius = (width + height) * 0.015;
         switch(level) {
             case 1:
-                enemies.add(new Shooter_Enemy(spawnX, spawnY, radius, ENEMY_LV1_DMG, ENEMY_LV1_HEALTH, 270, 0, ENEMY_LV1_SHOOT_WAIT, player));
+                enemies.add(new Shooter_Enemy(spawnX, spawnY, radius, ENEMY_LV1_DMG, ENEMY_LV1_HEALTH, 270, 0, ENEMY_LV1_SHOOT_WAIT, ENEMY_LOOK_SPEED, player));
                 break;
             case 2:
-                enemies.add(new Shooter_Enemy(spawnX, spawnY, radius, ENEMY_LV2_DMG, ENEMY_LV2_HEALTH, 270, 0, ENEMY_LV2_SHOOT_WAIT, player));
+                enemies.add(new Shooter_Enemy(spawnX, spawnY, radius, ENEMY_LV2_DMG, ENEMY_LV2_HEALTH, 270, 0, ENEMY_LV2_SHOOT_WAIT, ENEMY_LOOK_SPEED, player));
                 break;
         }
     }
@@ -212,6 +215,7 @@ class Shooter_Main {
         for (int i = 0; i < WAVE_SIZE; i++) {
             spawnEnemy();
         }
+        player.setHealth(player.getHealth() + 20);
         entities.addAll(enemies);
     }
     
@@ -234,10 +238,10 @@ class Shooter_Main {
                 power = rand.nextInt((INIT_PLAYER_HEALTH - 20) + INIT_PLAYER_HEALTH);
                 break;
             case 2:
-                power = 1;
+                power = 2;
                 break;
             case 3:
-                power = rand.nextInt((10 - 2) + 2);
+                power = rand.nextInt((20 - 2) + 2);
                 break;
         }
         

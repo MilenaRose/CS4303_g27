@@ -10,7 +10,7 @@ class Shooter_Item {
     private float radius;
     private int type;
     private int power;
-    private final int MOVE_SPEED = 4;
+    private float moveSpeed;
     
     /**
     * Creates an item of  given type with a given power. Types:
@@ -24,6 +24,7 @@ class Shooter_Item {
         this.radius = radius;
         this.type = type;
         this.power = power;
+        moveSpeed = (width * 0.005); 
     }
     
     /**
@@ -68,7 +69,7 @@ class Shooter_Item {
     * Moves the item across the screen from right to left.
     */
     private void update(){
-        x = x - MOVE_SPEED;
+        x = x - moveSpeed;
     }
     
     /**
@@ -80,12 +81,15 @@ class Shooter_Item {
         
         switch(type){
             case 1:
+            // Green for health
             fill(3, 255, 32);
             break;
             case 2:
+            // Light blue for shoot interval
             fill(3, 192, 255);
             break;
             case 3:
+            // Purple for bullet damage
             fill(192, 3, 255);
             break;
         }

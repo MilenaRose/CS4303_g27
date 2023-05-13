@@ -17,7 +17,7 @@ class Shooter_Entity {
     
     protected Shooter_Eye eye;
     protected float moveSpeed; 
-    protected final float LOOK_SPEED = 4; // this is in degrees
+    protected float lookSpeed; // this is in degrees
     protected float bulletSize;
     protected ArrayList<Shooter_Bullet> bullets;
     protected boolean canShoot = true;
@@ -32,13 +32,14 @@ class Shooter_Entity {
     * Creates a shooter entity, the entity is a circle so a radius is needed
     * Initialises the bullet and eye.
     */
-    Shooter_Entity(float x, float y, float radius, int bulletDamage, int health, float spawnAngle, float moveModifier, int shootWait) {
+    Shooter_Entity(float x, float y, float radius, int bulletDamage, int health, float spawnAngle, float moveModifier, int shootWait, float lookSpeed) {
         // calulate size of bullet based off entity radius
         bulletSize = radius * 0.2;
         this.shootWait = shootWait;
+        this.lookSpeed = lookSpeed;
         
         // calculate move speed based off radius
-        moveSpeed = radius * 0.15 + moveModifier;
+        moveSpeed = (radius * 0.15) + moveModifier;
         
         this.x = x;
         this.y = y;
@@ -188,9 +189,9 @@ class Shooter_Entity {
     public void lookClockwise() {
         float angle = eye.getCurrentAngle();
         if (angle <= 0) {
-            eye.setCurrentAngle(360 - LOOK_SPEED);
+            eye.setCurrentAngle(360 - lookSpeed);
         } else{
-            eye.setCurrentAngle(angle - LOOK_SPEED);
+            eye.setCurrentAngle(angle - lookSpeed);
         }
     }
     
@@ -200,9 +201,9 @@ class Shooter_Entity {
     public void lookCounterClockwise() {
         float angle = eye.getCurrentAngle();
         if (angle >= 360) {
-            eye.setCurrentAngle(0 + LOOK_SPEED);
+            eye.setCurrentAngle(0 + lookSpeed);
         } else{
-            eye.setCurrentAngle(angle + LOOK_SPEED);
+            eye.setCurrentAngle(angle + lookSpeed);
         } 
     }
     
